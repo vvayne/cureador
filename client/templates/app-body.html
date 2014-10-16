@@ -26,10 +26,10 @@
       <div class="list-todos">
         <a class="js-new-list link-list-new"><span class="icon-plusSign"></span>New List</a>
         {{#each lists}}
-        {{>main}}
         <!-- {{#if adding_interest}}
           {{> addform}}
         {{/if}} -->
+        {{> main}}
 
           <a href="{{pathFor 'listsShow'}}" class="list-todo {{activeListClass}}" title="{{name}}">
             {{#if userId}}
