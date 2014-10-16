@@ -1,0 +1,83 @@
+<template name="listsShow">
+  <div class="page lists-show">
+    <nav class="js-title-nav">
+      {{#if editing}}
+        <form class="js-edit-form list-edit-form">
+          <input type="text" name="name" value="{{name}}">
+          <div class="nav-group right">
+            <a href="#" class="js-cancel nav-item"><span class="icon-close js-cancel" title="Cancel"></span></a>
+          </div>
+        </form>
+      {{else}}
+        <div class="nav-group">
+          <a href="#" class="js-menu nav-item"><span class="icon-list-unordered" title="Show menu"></span></a>
+        </div>
+
+        <h1 class="js-edit-list title-page"><span class="title-wrapper">{{name}}</span> <span class="count-list">{{incompleteCount}}</span></h1>
+
+        <div class="nav-group right">
+          <div class="nav-item options-mobile">
+            <select class="list-edit">
+              <option disabled selected>Select an action</option>
+              {{#if userId}}
+                <option value="public">Make Public</option>
+              {{else}}
+                <option value="private">Make Private</option>
+              {{/if}}
+              <option value="delete">Delete</option>
+            </select>
+            <span class="icon-cog"></span>
+          </div>
+          <div class="options-web">
+            <a class="addInterest"><span class="icon-add"></span></a>
+            <a class="js-toggle-list-privacy nav-item">
+              {{#if userId}}
+                <span class="icon-lock" title="Make list private"></span>
+              {{else}}
+                <span class="icon-unlock" title="Make list public"></span>
+              {{/if}}
+            </a>
+            <a class="js-delete-list nav-item">
+              <span class="icon-garb" title="Delete list"></span>
+            </a>
+          </div>
+        </div>
+      {{/if}}
+
+
+      <!-- <form class="js-todo-new todo-new input-symbol">
+        <input type="text" placeholder="Add items">
+        <span class="icon-add js-todo-add"></span>
+      </form> -->
+    </nav>
+
+    <div class="content-scrollable list-items">
+      {{#if todosReady}}
+        {{#each todos}}
+          {{> todo}}
+        {{else}}
+          <div class="wrapper-message">
+            <div class="title-message">No items here</div>
+            <div class="subtitle-message">Add new items using the field above</div>
+          </div>
+        {{/each}}
+      {{else}}
+          <div class="wrapper-message">
+            <div class="title-message">Loading items...</div>
+          </div>
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="main">
+  <input type="hidden" name= "updated" value="{{updated}}" id="updated">
+  {{#if adding_interest}}
+  {{> addform}}
+  {{/if}}
+  <!-- <div id= "mainContent" class="container-fluid">
+    {{#each todos}}
+    {{> todo}}
+    {{/each}}
+  </div> -->
+</template>

@@ -1,0 +1,42 @@
+<!-- <template name="todosItem">
+  <div class="list-item {{checkedClass}} {{editingClass}}">
+    <label class="checkbox">
+      <input type="checkbox" checked="{{checked}}" name="checked">
+     <span class="checkbox-custom"></span>
+    </label>
+
+    <input type="text" value="{{text}}" placeholder="Item URL">
+    <a class="js-delete-item delete-item" href="#"><span class="icon-trash"></span></a>
+  </div>
+</template> -->
+
+<template name= "todo">
+  <div class="item well span4">
+    <!-- <video controls autoplay height="{{height}}" src="{{src}}"></video> -->
+    <h4 class="muted">{{name}}</h4>
+    <p>{{thoughts}}</p>
+    <a target= "_new" href={{src}} >Link</a>
+    <a class="js-delete-item delete-item" href="#"><span class="icon-garb"></span></a>
+  </div>
+</template>
+
+<template name="addform">
+  <div id="example" class="modal">
+  <div class="modal-header">
+  <a class="close" data-dismiss="modal">x</a>
+  <h3>Add Content</h3>
+  </div>
+  <div class="modal-body">
+      <label for="name">name</label>
+    <input class="name" type="text" name="name" value="" id="name">
+      <label for="thoughts">thoughts</label>
+    <input class="thoughts" type="text" name="thoughts" value="" id="thoughts">
+      <label for="url">article</label>
+    <input class="src" type="text" name="url" value="" id="url">
+  </div>
+  <div class= "modal-footer">
+    <a href="#" class="btn btn-success save">Save</a>
+    <a href="#" class="btn cancel" data-dismiss="modal">Cancel</a>
+  </div>
+</div>
+</template>
