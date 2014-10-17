@@ -23,12 +23,15 @@
 Template.addform.events({
 
   'click .save':function(evt,tmpl){
+    // event.preventDefault();
     var thoughts = tmpl.find('.thoughts').value;
     var name = tmpl.find('.name').value;
     var url= tmpl.find('.src').value;
+    var listId = Router.current().params._id;
+    // var listId =tmpl.find('.active');
     // var height = getRandomInt(100,1000);
-    Todos.insert({name:name,thoughts:thoughts,src:url,height:1000,width:'25%',listId: this._id,});
-    Lists.update(this._id, {$inc: {incompleteCount: 1}});
+    Todos.insert({name:name,thoughts:thoughts,src:url,height:1000,width:'25%',listId: listId,});
+    Lists.update(listId, {$inc: {incompleteCount: 1}});
     Session.set('adding_interest',false);
   },
   'click .cancel':function(evt,tmpl){

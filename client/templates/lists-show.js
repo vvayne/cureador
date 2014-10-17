@@ -94,8 +94,8 @@ var toggleListPrivacy = function(list) {
 
 Template.listsShow.events({
 
-  'click .addInterest':function(evt,tmpl){
-    evt.preventDefault();
+  'click .addInterest':function(event,tmpl){
+    event.preventDefault();
     Session.set('adding_interest',true);
   },
 
