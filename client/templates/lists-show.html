@@ -12,14 +12,12 @@
         <div class="nav-group">
           <a href="#" class="js-menu nav-todo"><span class="icon-list-unordered" title="Show menu"></span></a>
         </div>
-
         <h1 class="js-edit-list title-page"><span class="title-wrapper">{{name}}</span> <span class="count-list">{{incompleteCount}}</span></h1>
-
         <div class="nav-group right">
           <div class="nav-todo options-mobile">
             <select class="list-edit">
               <option disabled selected>Select an action</option>
-              {{#if userId}}
+              {{#if Privacy}}
                 <option value="public">Make Public</option>
               {{else}}
                 <option value="private">Make Private</option>
@@ -31,11 +29,14 @@
           <div class="options-web">
             <a class="addInterest"><span class="icon-add"></span></a>
             <a class="js-toggle-list-privacy nav-todo">
-              {{#if userId}}
-                <span class="icon-locked" title="Make list private"></span>
+              {{#if Privacy}}
+                 <span class="icon-locked" title="Make list public"></span>
               {{else}}
-                <span class="icon-unlock" title="Make list public"></span>
+                <span class="icon-unlock" title="Make list private"></span>
               {{/if}}
+            </a>
+            <a class="js-share-list">
+              <span class="icon-shared" title="Send List"></span>
             </a>
             <a class="js-delete-list nav-todo">
               <span class="icon-garb" title="Delete list"></span>
@@ -52,6 +53,9 @@
     </nav>
 
     <div class="content-scrollable list-todos">
+    {{#if adding_interest}}
+      {{> form}}
+    {{/if}}
       {{#if todosReady}}
         {{#each todos}}
           {{> todo}}
@@ -70,14 +74,10 @@
   </div>
 </template>
 
-<template name="main">
-  <!-- <input type="hidden" name= "updated" value="{{updated}}" id="updated"> -->
-  {{#if adding_interest}}
-  {{> addform}}
+<template name="shareModal">
+  <input type="hidden" name= "updated" value="{{updated}}" id="updated">
+  {{#if sharing_list}}
+  {{> sharelist}}
   {{/if}}
-  <!-- <div id= "mainContent" class="container-fluid">
-    {{#each todos}}
-    {{> todo}}
-  {{/each}}
-  </div> -->
+
 </template>

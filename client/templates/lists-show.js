@@ -2,11 +2,22 @@ var EDITING_KEY = 'editingList';
 
 Session.setDefault(EDITING_KEY, false);
 
+Session.setDefault('sharing_list',false);
+
 // Session.setDefault('adding_interest',false);
 
 // Template.main.adding_interest = function () {
 //   return Session.get('adding_interest');
 // }
+
+
+Template.shareModal.helpers({
+
+  sharing_list: function(){
+  return Session.get('sharing_list');
+  }
+
+});
 
 Template.listsShow.rendered = function() {
   this.find('.js-title-nav')._uihooks = {
@@ -26,7 +37,7 @@ Template.listsShow.rendered = function() {
 
 Template.listsShow.helpers({
 
-    adding_interest : function() {
+  adding_interest : function() {
     return Session.get('adding_interest');
    },
 
@@ -35,6 +46,8 @@ Template.listsShow.helpers({
   },
 
   todosReady: function() {
+    console.log("what");
+    console.log(Router.current().todosHandle.ready());
     return Router.current().todosHandle.ready();
   },
 
@@ -82,23 +95,30 @@ var toggleListPrivacy = function(list) {
     return alert("Please sign in or create an account to make private lists.");
   }
 
-  if (list.userId) {
-    Lists.update(list._id, {$unset: {userId: true}});
+  if (list.Privacy) {
+    Lists.update(list._id, {$set: {Privacy: false}});
   } else {
     // ensure the last public list cannot be made private
-    if (Lists.find({userId: {$exists: false}}).count() === 1) {
-      return alert("Sorry, you cannot make the final public list private!");
+    if (Lists.find({Privacy: {$exists: false}}).count() === 1) {
+      return alert("Sorry, you can't make the final public list private!");
     }
 
-    Lists.update(list._id, {$set: {userId: Meteor.userId()}});
+    Lists.update(list._id, {$set: {Privacy: true}});
   }
 };
 
 Template.listsShow.events({
 
+  'click .js-share-list':function(event,tmpl){
+    event.preventDefault();
+    Session.set('sharing_list',true);
+  },
+
   'click .addInterest':function(event,tmpl){
     event.preventDefault();
+    console.log("this happens");
     Session.set('adding_interest',true);
+    console.log(Session.get('adding_interest'));
   },
 
   'click .js-cancel': function() {
@@ -154,7 +174,6 @@ Template.listsShow.events({
   'click .js-delete-list': function(event, template) {
     deleteList(this, template);
   }
-
 
   // 'click .js-todo-add': function(event, template) {
   //   template.$('.js-todo-new input').focus();
