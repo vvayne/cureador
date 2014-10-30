@@ -67,10 +67,18 @@ var editList = function(list, template) {
 var saveList = function(list, template) {
   Session.set(EDITING_KEY, false);
   Lists.update(list._id, {$set: {name: template.$('[name=name]').val()}});
-}
+};
 
 var deleteList = function(list) {
   // ensure the last public list cannot be deleted.
+  if (! Meteor.user()) {
+    return alert("Please sign in or create an account to delete lists.");
+  }
+
+  if (Meteor.user().emails[0].address != list.owner) {
+    return alert("You must be the owner of this list to delete this list.");
+  }
+
   if (! list.userId && Lists.find({userId: {$exists: false}}).count() === 1) {
     return alert("Sorry, you cannot delete the final public list!");
   }
@@ -94,6 +102,11 @@ var toggleListPrivacy = function(list) {
   if (! Meteor.user()) {
     return alert("Please sign in or create an account to make private lists.");
   }
+
+  if (Meteor.user().emails[0].address != list.owner) {
+    return alert("You must be the owner of this list to make it private.");
+  }
+  
 
   if (list.Privacy) {
     Lists.update(list._id, {$set: {Privacy: false}});
