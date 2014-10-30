@@ -3,7 +3,7 @@
 //   if (Lists.find().count() === 0) {
 //     var data = [
 //       {name: "Meteor Principles",
-//        items: ["Data on the Wire",
+//        todos: ["Data on the Wire",
 //          "One Language",
 //          "Database Everywhere",
 //          "Latency Compensation",
@@ -13,7 +13,7 @@
 //        ]
 //       },
 //       {name: "Languages",
-//        items: ["Lisp",
+//        todos: ["Lisp",
 //          "C",
 //          "C++",
 //          "Python",
@@ -25,7 +25,7 @@
 //          ]
 //       },
 //       {name: "Favorite Scientists",
-//        items: ["Ada Lovelace",
+//        todos: ["Ada Lovelace",
 //          "Grace Hopper",
 //          "Marie Curie",
 //          "Carl Friedrich Gauss",
@@ -38,9 +38,9 @@
 //     var timestamp = (new Date()).getTime();
 //     _.each(data, function(list) {
 //       var list_id = Lists.insert({name: list.name,
-//         incompleteCount: list.items.length});
+//         incompleteCount: list.todos.length});
 //
-//       _.each(list.items, function(text) {
+//       _.each(list.todos, function(text) {
 //         Todos.insert({listId: list_id,
 //                       text: text,
 //                       createdAt: new Date(timestamp)});

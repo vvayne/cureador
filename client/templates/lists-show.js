@@ -2,14 +2,11 @@ var EDITING_KEY = 'editingList';
 
 Session.setDefault(EDITING_KEY, false);
 
-Session.setDefault('adding_interest',false);
+// Session.setDefault('adding_interest',false);
 
-
-Template.main.adding_interest = function(){
-  return Session.get('adding_interest');
-}
-
-
+// Template.main.adding_interest = function () {
+//   return Session.get('adding_interest');
+// }
 
 Template.listsShow.rendered = function() {
   this.find('.js-title-nav')._uihooks = {
@@ -28,6 +25,11 @@ Template.listsShow.rendered = function() {
 };
 
 Template.listsShow.helpers({
+
+    adding_interest : function() {
+    return Session.get('adding_interest');
+   },
+
   editing: function() {
     return Session.get(EDITING_KEY);
   },

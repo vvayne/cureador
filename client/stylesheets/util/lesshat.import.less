@@ -10,7 +10,7 @@
 
 // TABLE OF MIXINS:
 	// align-content
-	// align-items
+	// align-todos
 	// align-self
 	// animation
 	// animation-delay
@@ -105,23 +105,23 @@
   align-content: @process;
 }
 
-.align-items(...) {
+.align-todos(...) {
   @process_olderwebkit: ~`(function(t){return t=t||"stretch","flex-start"==t?t="start":"flex-end"==t&&(t="end"),t})((function(){var e="@{arguments}";return e=e.replace(/^\[|\]$/g,"")})())`;
   @process_moz: ~`(function(t){return t=t||"stretch","flex-start"==t?t="start":"flex-end"==t&&(t="end"),t})((function(){var t="@{arguments}";return t=t.replace(/^\[|\]$/g,"")})())`;
   @process: ~`(function(t){return t=t||"stretch"})((function(){var t="@{arguments}";return t=t.replace(/^\[|\]$/g,"")})())`;
   @process_ms: ~`(function(t){return t=t||"stretch","flex-start"==t?t="start":"flex-end"==t&&(t="end"),t})((function(){var t="@{arguments}";return t=t.replace(/^\[|\]$/g,"")})())`;
   -webkit-box-align: @process_olderwebkit;
   -moz-box-align: @process_moz;
-  -webkit-align-items: @process;
+  -webkit-align-todos: @process;
   -ms-flex-align: @process_ms;
-  align-items: @process;
+  align-todos: @process;
 }
 
 .align-self(...) {
   @process: ~`(function(t){return t=t||"auto"})((function(){var t="@{arguments}";return t=t.replace(/^\[|\]$/g,"")})())`;
   @process_ms: ~`(function(t){return t=t||"auto","flex-start"==t?t="start":"flex-end"==t&&(t="end"),t})((function(){var t="@{arguments}";return t=t.replace(/^\[|\]$/g,"")})())`;
   -webkit-align-self: @process;
-  -ms-flex-item-align: @process_ms;
+  -ms-flex-todo-align: @process_ms;
   align-self: @process;
 }
 
@@ -257,16 +257,16 @@
 
 .border-bottom-left-radius(...) {
   @process: ~`(function(e){e=e||"0";var t=/\d/gi,r=/(?:\s|^)(\.?\d+\.?\d*)(?![^(]*\)|\w|%|\.)/gi;return/^[^, ]*,/.test(e)&&(e=e.replace(/(?:,)(?![^(]*\))/g,"")),t.test(e)&&(e=e.replace(r,function(e){return 0==e&&e||e+"px"})),e})((function(){var e="@{arguments}";return e=e.replace(/^\[|\]$/g,"")})())`;
-  -webkit-border-bottom-left-radius: @process; -webkit-background-clip: padding-box; 
-  -moz-border-radius-bottomleft: @process; -moz-background-clip: padding; 
-  border-bottom-left-radius: @process; background-clip: padding-box; 
+  -webkit-border-bottom-left-radius: @process; -webkit-background-clip: padding-box;
+  -moz-border-radius-bottomleft: @process; -moz-background-clip: padding;
+  border-bottom-left-radius: @process; background-clip: padding-box;
 }
 
 .border-bottom-right-radius(...) {
   @process: ~`(function(e){e=e||"0";var t=/\d/gi,r=/(?:\s|^)(\.?\d+\.?\d*)(?![^(]*\)|\w|%|\.)/gi;return/^[^, ]*,/.test(e)&&(e=e.replace(/(?:,)(?![^(]*\))/g,"")),t.test(e)&&(e=e.replace(r,function(e){return 0==e&&e||e+"px"})),e})((function(){var e="@{arguments}";return e=e.replace(/^\[|\]$/g,"")})())`;
-  -webkit-border-bottom-right-radius: @process; -webkit-background-clip: padding-box; 
-  -moz-border-radius-bottomright: @process; -moz-background-clip: padding; 
-  border-bottom-right-radius: @process; background-clip: padding-box; 
+  -webkit-border-bottom-right-radius: @process; -webkit-background-clip: padding-box;
+  -moz-border-radius-bottomright: @process; -moz-background-clip: padding;
+  border-bottom-right-radius: @process; background-clip: padding-box;
 }
 
 .border-image(...) {
@@ -279,23 +279,23 @@
 
 .border-radius(...) {
   @process: ~`(function(e){e=e||"0";var t=/\d/gi,r=/(?:\s|^)(\.?\d+\.?\d*)(?![^(]*\)|\w|%|\.)/gi;return/^[^, ]*,/.test(e)&&(e=e.replace(/(?:,)(?![^(]*\))/g,"")),t.test(e)&&(e=e.replace(r,function(e){return 0==e&&e||e+"px"})),e})((function(){var e="@{arguments}";return e=e.replace(/^\[|\]$/g,"")})())`;
-  -webkit-border-radius: @process; -webkit-background-clip: padding-box; 
-  -moz-border-radius: @process; -moz-background-clip: padding; 
-  border-radius: @process; background-clip: padding-box; 
+  -webkit-border-radius: @process; -webkit-background-clip: padding-box;
+  -moz-border-radius: @process; -moz-background-clip: padding;
+  border-radius: @process; background-clip: padding-box;
 }
 
 .border-top-left-radius(...) {
   @process: ~`(function(e){e=e||"0";var t=/\d/gi,r=/(?:\s|^)(\.?\d+\.?\d*)(?![^(]*\)|\w|%|\.)/gi;return/^[^, ]*,/.test(e)&&(e=e.replace(/(?:,)(?![^(]*\))/g,"")),t.test(e)&&(e=e.replace(r,function(e){return 0==e&&e||e+"px"})),e})((function(){var e="@{arguments}";return e=e.replace(/^\[|\]$/g,"")})())`;
-  -webkit-border-top-left-radius: @process; -webkit-background-clip: padding-box; 
-  -moz-border-radius-topleft: @process; -moz-background-clip: padding; 
-  border-top-left-radius: @process; background-clip: padding-box; 
+  -webkit-border-top-left-radius: @process; -webkit-background-clip: padding-box;
+  -moz-border-radius-topleft: @process; -moz-background-clip: padding;
+  border-top-left-radius: @process; background-clip: padding-box;
 }
 
 .border-top-right-radius(...) {
   @process: ~`(function(e){e=e||"0";var t=/\d/gi,r=/(?:\s|^)(\.?\d+\.?\d*)(?![^(]*\)|\w|%|\.)/gi;return/^[^, ]*,/.test(e)&&(e=e.replace(/(?:,)(?![^(]*\))/g,"")),t.test(e)&&(e=e.replace(r,function(e){return 0==e&&e||e+"px"})),e})((function(){var e="@{arguments}";return e=e.replace(/^\[|\]$/g,"")})())`;
-  -webkit-border-top-right-radius: @process; -webkit-background-clip: padding-box; 
-  -moz-border-radius-topright: @process; -moz-background-clip: padding; 
-  border-top-right-radius: @process; background-clip: padding-box; 
+  -webkit-border-top-right-radius: @process; -webkit-background-clip: padding-box;
+  -moz-border-radius-topright: @process; -moz-background-clip: padding;
+  border-top-right-radius: @process; background-clip: padding-box;
 }
 
 .box-shadow(...) {
@@ -888,5 +888,3 @@
   -ms-user-select: @process;
   user-select: @process;
 }
-
-

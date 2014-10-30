@@ -1,3 +1,6 @@
+// var adding_interest = 'adding_interest';
+// Session.setDefault(adding_interest,false);
+
 var MENU_KEY = 'menuOpen';
 Session.setDefault(MENU_KEY, false);
 
@@ -8,6 +11,8 @@ var SHOW_CONNECTION_ISSUE_KEY = 'showConnectionIssue';
 Session.setDefault(SHOW_CONNECTION_ISSUE_KEY, false);
 
 var CONNECTION_ISSUE_TIMEOUT = 1000;
+
+Session.setDefault('adding_interest',false);
 
 Meteor.startup(function () {
   // set up a swipe left / right handler
@@ -45,10 +50,15 @@ Template.appBody.rendered = function() {
 };
 
 Template.appBody.helpers({
-  // We use #each on an array of one item so that the "list" template is
+  // We use #each on an array of one todo so that the "list" template is
   // removed and a new copy is added when changing lists, which is
   // important for animation purposes. #each looks at the _id property of it's
-  // items to know when to insert a new item and when to update an old one.
+  // todos to know when to insert a new todo and when to update an old one.
+
+  // adding_interest : function() {
+  //   return Session.get('adding_interest');
+  // },
+
   thisArray: function() {
     return [this];
   },
