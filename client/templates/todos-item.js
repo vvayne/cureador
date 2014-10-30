@@ -25,12 +25,15 @@ Template.addform.events({
   'click .save':function(evt,tmpl){
     // event.preventDefault();
     var thoughts = tmpl.find('.thoughts').value;
+    var author = tmpl.find('.author').value;
     var name = tmpl.find('.name').value;
     var url= tmpl.find('.src').value;
     var listId = Router.current().params._id;
+    var owner = Meteor.userId();
+    var createdAt = new Date();
     // var listId =tmpl.find('.active');
     // var height = getRandomInt(100,1000);
-    Todos.insert({name:name,thoughts:thoughts,src:url,height:1000,width:'25%',listId: listId,});
+    Todos.insert({name:name,author:author,thoughts:thoughts,src:url,height:1000,width:'25%',listId: listId,owner: owner, createdAt: createdAt,});
     Lists.update(listId, {$inc: {incompleteCount: 1}});
     Session.set('adding_interest',false);
   },
@@ -80,3 +83,25 @@ Template.todo.events({
       Lists.update(this.listId, {$inc: {incompleteCount: -1}});
   }
 });
+
+
+Template.sharelist.events({
+  'click .save':function(evt,tmpl){
+    // event.preventDefault();
+    var shareusername = tmpl.find('.shareusername').value;
+    var listId = Router.current().params._id;
+    var owner = Meteor.userId();
+    var createdAt = new Date();
+    Lists.update(listId,{$push: {access: shareusername}});
+    // console.log(ListAccess.find().fetch());
+    // console.log("hi");
+    Session.set('sharing_list',false);
+  },
+  'click .cancel':function(evt,tmpl){
+    Session.set('sharing_list',false);
+  },
+  'click .close':function(evt,tmp){
+    Session.set('sharing_list',false);
+  }
+});
+

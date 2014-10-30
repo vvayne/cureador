@@ -1,5 +1,6 @@
 var ERRORS_KEY = 'signinErrors';
 
+
 Template.signin.created = function() {
   Session.set(ERRORS_KEY, {});
 };
@@ -44,3 +45,4 @@ Template.signin.events({
     });
   }
 });
+

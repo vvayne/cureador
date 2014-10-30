@@ -4,12 +4,15 @@ Session.setDefault(EDITING_KEY, false);
 
 Session.setDefault('adding_interest',false);
 
+Session.setDefault('sharing_list',false);
 
 Template.main.adding_interest = function(){
   return Session.get('adding_interest');
-}
+};
 
-
+Template.shareModal.sharing_list = function(){
+  return Session.get('sharing_list');
+};
 
 Template.listsShow.rendered = function() {
   this.find('.js-title-nav')._uihooks = {
@@ -80,15 +83,15 @@ var toggleListPrivacy = function(list) {
     return alert("Please sign in or create an account to make private lists.");
   }
 
-  if (list.userId) {
-    Lists.update(list._id, {$unset: {userId: true}});
+  if (list.Privacy) {
+    Lists.update(list._id, {$set: {Privacy: false}});
   } else {
     // ensure the last public list cannot be made private
-    if (Lists.find({userId: {$exists: false}}).count() === 1) {
-      return alert("Sorry, you cannot make the final public list private!");
+    if (Lists.find({Privacy: {$exists: false}}).count() === 1) {
+      return alert("Sorry, you can't make the final public list private!");
     }
 
-    Lists.update(list._id, {$set: {userId: Meteor.userId()}});
+    Lists.update(list._id, {$set: {Privacy: true}});
   }
 };
 
@@ -97,6 +100,11 @@ Template.listsShow.events({
   'click .addInterest':function(event,tmpl){
     event.preventDefault();
     Session.set('adding_interest',true);
+  },
+
+  'click .js-share-list':function(event,tmpl){
+    event.preventDefault();
+    Session.set('sharing_list',true);
   },
 
   'click .js-cancel': function() {
@@ -175,3 +183,5 @@ Template.listsShow.events({
   //   $input.val('');
   // }
 });
+
+

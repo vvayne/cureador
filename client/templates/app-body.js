@@ -68,6 +68,19 @@ Template.appBody.helpers({
   lists: function() {
     return Lists.find();
   },
+  accessible: function() {
+    var user = Meteor.user().emails[0].address;
+    console.log(this);
+    var arr = this.access;
+    if (arr !== null) {
+      for (var i = 0; i < arr.length; i++) {
+          if (arr[i] === user) {
+              return true;
+          }
+      }
+    }
+    return false;
+  },
   activeListClass: function() {
     var current = Router.current();
     if (current.route.name === 'listsShow' && current.params._id === this._id) {
@@ -115,7 +128,11 @@ Template.appBody.events({
   },
 
   'click .js-new-list': function() {
-    var list = {name: Lists.defaultName(), incompleteCount: 0};
+    if (! Meteor.user()) {
+      return alert("Please sign in or create an account to make lists.");
+    }
+
+    var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: false, access:[Meteor.user().emails[0].address]};
     list._id = Lists.insert(list);
 
     Router.go('listsShow', list);

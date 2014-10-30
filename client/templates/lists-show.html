@@ -19,7 +19,7 @@
           <div class="nav-item options-mobile">
             <select class="list-edit">
               <option disabled selected>Select an action</option>
-              {{#if userId}}
+              {{#if Privacy}}
                 <option value="public">Make Public</option>
               {{else}}
                 <option value="private">Make Private</option>
@@ -31,11 +31,16 @@
           <div class="options-web">
             <a class="addInterest"><span class="icon-add"></span></a>
             <a class="js-toggle-list-privacy nav-item">
-              {{#if userId}}
-                <span class="icon-locked" title="Make list private"></span>
+              {{#if Privacy}}
+                 <span class="icon-locked" title="Make list public"></span>
               {{else}}
-                <span class="icon-unlock" title="Make list public"></span>
+              <span class="icon-unlock" title="Make list private"></span>
+             
+                
               {{/if}}
+            </a>
+            <a class="js-share-list">
+              <span class="icon-shared" title="Send List"></span>
             </a>
             <a class="js-delete-list nav-item">
               <span class="icon-garb" title="Delete list"></span>
@@ -81,3 +86,18 @@
     {{/each}}
   </div> -->
 </template>
+
+<template name="shareModal">
+  <input type="hidden" name= "updated" value="{{updated}}" id="updated">
+  {{#if sharing_list}}
+  {{> sharelist}}
+  {{/if}}
+  <!-- <div id= "mainContent" class="container-fluid">
+    {{#each todos}}
+    {{> todo}}
+    {{/each}}
+  </div> -->
+</template>
+
+
+
