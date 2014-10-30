@@ -81,7 +81,6 @@ Template.appBody.helpers({
 
   accessible: function() {
     var user = Meteor.user().emails[0].address;
-    console.log(this);
     var arr = this.access;
     if (arr !== null) {
       for (var i = 0; i < arr.length; i++) {
@@ -144,7 +143,7 @@ Template.appBody.events({
       return alert("Please sign in or create an account to make lists.");
     }
 
-   var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: false, access:[Meteor.user().emails[0].address]};
+   var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: false, access:[Meteor.user().emails[0].address], owner: Meteor.user().emails[0].address};
     list._id = Lists.insert(list);
 
     Router.go('listsShow', list);
