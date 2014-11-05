@@ -46,8 +46,11 @@
   <h3>Share List</h3>
   </div>
   <div class="modal-body">
-      <label for="shareusername">What's the email of the person you want to share this with?</label>
-    <input class="shareusername" type="text" name="shareusername" value="" id="shareusername">
+    <div class="modal-body">The people who can see this list (if it were private) are: <span style="font-size:12px; color:gray;">{{listOfAccessibleEmails}}</span></div>
+    <div class="modal-body">
+    <label for="shareusername">Who do you want to share this list with?</label>
+    <input class="shareusername" type="text" name="shareusername" value="" id="shareusername" placeholder="example@gmail.com">
+    </div>
   </div>
   <div class= "modal-footer">
     <a href="#" class="btn btn-success save">Okay!</a>
