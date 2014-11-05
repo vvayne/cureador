@@ -128,10 +128,18 @@ Template.listsShow.events({
   },
 
   'click .addInterest':function(event,tmpl){
-    event.preventDefault();
-    console.log("this happens");
-    Session.set('adding_interest',true);
-    console.log(Session.get('adding_interest'));
+    console.log(this);
+
+    if (! Meteor.user()) {
+      return alert("Please sign in or create an account to add items to a list.");
+    } else if (Meteor.user().emails[0].address != this.owner) {
+      return alert("You must be the owner of this list to add items to the list.");
+    } else if (Meteor.user().emails[0].address == this.owner) {
+      console.log("Adding a list item");
+      event.preventDefault();
+      Session.set('adding_interest',true);
+      console.log(Session.get('adding_interest'));
+    }
   },
 
   'click .js-cancel': function() {
