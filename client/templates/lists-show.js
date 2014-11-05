@@ -71,7 +71,12 @@ var editList = function(list, template) {
 
 var saveList = function(list, template) {
   Session.set(EDITING_KEY, false);
-  Lists.update(list._id, {$set: {name: template.$('[name=name]').val()}});
+  if (template.$('[name=name').val() === "") {
+    Lists.update(list._id, {$set: {name: "Untitled"}});
+  } else {
+    Lists.update(list._id, {$set: {name: template.$('[name=name]').val()}});
+  }
+
 };
 
 var deleteList = function(list) {
