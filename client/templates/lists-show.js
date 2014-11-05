@@ -53,7 +53,12 @@ Template.listsShow.helpers({
     console.log("we are in todos");
     console.log(Todos.find({listId: this._id}, {sort: {createdAt : -1}}));
     return Todos.find({listId: this._id}, {sort: {createdAt : -1}});
-  }
+  },
+
+  ownerLocalPart: function() {
+    var email = this.owner;
+    return email.substring(0, email.indexOf('@'));
+  },
 });
 
 var editList = function(list, template) {
@@ -121,6 +126,11 @@ var toggleListPrivacy = function(list) {
 };
 
 Template.listsShow.events({
+
+  'click .js-edit-list':function(event,tmpl){
+    event.preventDefault();
+    editList(this, template);
+  },
 
   'click .js-share-list':function(event,tmpl){
     event.preventDefault();
