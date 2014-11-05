@@ -53,7 +53,12 @@ Template.listsShow.helpers({
     console.log("we are in todos");
     console.log(Todos.find({listId: this._id}, {sort: {createdAt : -1}}));
     return Todos.find({listId: this._id}, {sort: {createdAt : -1}});
-  }
+  },
+
+  ownerLocalPart: function() {
+    var email = this.owner;
+    return email.substring(0, email.indexOf('@'));
+  },
 });
 
 var editList = function(list, template) {
@@ -122,16 +127,37 @@ var toggleListPrivacy = function(list) {
 
 Template.listsShow.events({
 
+  'click .js-edit-this-list':function(event,tmpl){
+    event.preventDefault();
+    if (! Meteor.user()) {
+      return alert("Please sign in or create an account to change list titles.");
+    } else if (Meteor.user().emails[0].address !== this.owner) {
+      return alert("You must be the owner of this list to change the title of this list.");
+    } else if (Meteor.user().emails[0].address === this.owner) {
+      console.log("Hi, you're the owner!");
+      event.preventDefault();
+      editList(this, tmpl);
+    }
+  },
+
   'click .js-share-list':function(event,tmpl){
     event.preventDefault();
     Session.set('sharing_list',true);
   },
 
   'click .addInterest':function(event,tmpl){
-    event.preventDefault();
-    console.log("this happens");
-    Session.set('adding_interest',true);
-    console.log(Session.get('adding_interest'));
+    console.log(this);
+
+    if (! Meteor.user()) {
+      return alert("Please sign in or create an account to add items to a list.");
+    } else if (Meteor.user().emails[0].address != this.owner) {
+      return alert("You must be the owner of this list to add items to the list.");
+    } else if (Meteor.user().emails[0].address == this.owner) {
+      console.log("Adding a list item");
+      event.preventDefault();
+      Session.set('adding_interest',true);
+      console.log(Session.get('adding_interest'));
+    }
   },
 
   'click .js-cancel': function() {
@@ -159,10 +185,10 @@ Template.listsShow.events({
 
   // handle mousedown otherwise the blur handler above will swallow the click
   // on iOS, we still require the click event so handle both
-  'mousedown .js-cancel, click .js-cancel': function(event) {
-    event.preventDefault();
-    Session.set(EDITING_KEY, false);
-  },
+  // 'mousedown .js-cancel, click .js-cancel': function(event) {
+  //   event.preventDefault();
+  //   Session.set(EDITING_KEY, false);
+  // },
 
   'change .list-edit': function(event, template) {
     if ($(event.target).val() === 'edit') {
@@ -176,9 +202,9 @@ Template.listsShow.events({
     event.target.selectedIndex = 0;
   },
 
-  'click .js-edit-list': function(event, template) {
-    editList(this, template);
-  },
+  // 'click .js-edit-list': function(event, template) {
+  //   editList(this, template);
+  // },
 
   'click .js-toggle-list-privacy': function(event, template) {
     toggleListPrivacy(this, template);

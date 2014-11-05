@@ -45,7 +45,7 @@ nav {
     @media screen and (min-width: 40em) { left: 1rem; }
 
     cursor: pointer;
-    font-size: 1.125em; // 18px
+    font-size: 1.5em; 
     white-space: nowrap;
 
     .title-wrapper {
@@ -62,12 +62,19 @@ nav {
       border-radius: 1em;
       color: @color-empty;
       display: inline-block;
-      font-size: .7rem;
+      font-size: 1rem;
       line-height: 1;
       margin-left: -1.25rem;
       margin-top: -4px;
       padding: .3em .5em;
       vertical-align: middle;
+    }
+
+    .owner {
+      display:block;
+      font-size: 1rem;
+      color: gray;
+      margin-top: -20px;
     }
   }
   form.todo-new {
