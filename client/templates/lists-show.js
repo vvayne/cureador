@@ -46,12 +46,12 @@ Template.listsShow.helpers({
   },
 
   todosReady: function() {
-    console.log("what");
-    console.log(Router.current().todosHandle.ready());
     return Router.current().todosHandle.ready();
   },
 
   todos: function() {
+    console.log("we are in todos");
+    console.log(Todos.find({listId: this._id}, {sort: {createdAt : -1}}));
     return Todos.find({listId: this._id}, {sort: {createdAt : -1}});
   }
 });
@@ -112,7 +112,7 @@ var toggleListPrivacy = function(list) {
     Lists.update(list._id, {$set: {Privacy: false}});
   } else {
     // ensure the last public list cannot be made private
-    if (Lists.find({Privacy: {$exists: false}}).count() === 1) {
+    if (Lists.find({Privacy: false}).count() === 1) {
       return alert("Sorry, you can't make the final public list private!");
     }
 

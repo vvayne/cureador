@@ -133,8 +133,12 @@ Template.appBody.events({
 
     // if we are on a private list, we'll need to go to a public one
     var current = Router.current();
-    if (current.route.name === 'listsShow' && current.data().userId) {
-      Router.go('listsShow', Lists.findOne({userId: {$exists: false}}));
+    console.log("Hi, we're logging out!");
+    console.log(current.data().userId);
+    if (current.route.name === 'listsShow') {
+      console.log("We are in the logout function");
+      console.log(Lists.findOne({Privacy: false}));
+      Router.go('listsShow', Lists.findOne({Privacy: false}));
     }
   },
 
@@ -144,7 +148,9 @@ Template.appBody.events({
     }
 
    var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: false, access:[Meteor.user().emails[0].address], owner: Meteor.user().emails[0].address};
+    console.log(list);
     list._id = Lists.insert(list);
+    console.log(list);
 
     Router.go('listsShow', list);
   }
