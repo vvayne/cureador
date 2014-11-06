@@ -58,13 +58,23 @@ Template.sharelist.events({
     var listId = Router.current().params._id;
     var owner = Meteor.userId();
     var createdAt = new Date();
-    // var list = Lists.findOne(listId,{access: {$exists: shareusername}});
-    // console.log(list);
-    // if (list !== null) {
-    //   Lists.update(listId,{$pull: {access: shareusername}});
-    // } else {
-      Lists.update(listId,{$push: {access: shareusername}});
-    // }
+    var list = Lists.findOne(listId);
+    var arr = list.access;
+    var foundIt = false;
+    if (arr !== null) {
+      for (var i = 0; i < arr.length; i++) {
+          if (arr[i] === shareusername) {
+            console.log("trying to delete something");
+            Lists.update({_id: listId},{$pull: {access: shareusername}});
+            foundIt = true;
+          }
+      }
+      if (!foundIt) {
+        Lists.update({_id: listId},{$push: {access: shareusername}});
+      }
+      
+    }
+
     // console.log(ListAccess.find().fetch());
     // console.log("hi");
     Session.set('sharing_list',false);
