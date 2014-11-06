@@ -59,20 +59,38 @@ Template.sharelist.events({
     var owner = Meteor.userId();
     var createdAt = new Date();
     var list = Lists.findOne(listId);
-    var arr = list.access;
-    var foundIt = false;
-    if (arr !== null) {
-      for (var i = 0; i < arr.length; i++) {
-          if (arr[i] === shareusername) {
-            console.log("trying to delete something");
-            Lists.update({_id: listId},{$pull: {access: shareusername}});
-            foundIt = true;
+
+    // var actualUser = Meteor.users.findOne({ "emails.address":shareusername});
+    // console.log("merp");
+    // console.log(actualUser);
+    // if (actualUser === undefined) {
+    //   return alert("You must input an actual user!");
+    // }
+    if (Meteor.user().emails[0].address === list.owner) {
+      if (shareusername !== list.owner) {
+        var arr = list.access;
+        var foundIt = false;
+        if (arr !== null) {
+          for (var i = 0; i < arr.length; i++) {
+              if (arr[i] === shareusername) {
+                console.log("trying to delete something");
+                Lists.update({_id: listId},{$pull: {access: shareusername}});
+                foundIt = true;
+                // Router.go('home');
+                // console.log("herpderpmerp");
+                // var current = Router.current();
+                // if (current.route.name === 'listsShow') {
+                //   Router.go('listsShow', Lists.findOne({owner: Meteor.user.emails[0].address}));
+                // }
+              }
           }
+          if (!foundIt) {
+            Lists.update({_id: listId},{$push: {access: shareusername}});
+          }
+        }
+      } else {
+        return alert("You can't unshare the owner from their own list!");
       }
-      if (!foundIt) {
-        Lists.update({_id: listId},{$push: {access: shareusername}});
-      }
-      
     }
 
     // console.log(ListAccess.find().fetch());
