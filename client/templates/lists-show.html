@@ -12,7 +12,9 @@
         <div class="nav-group">
           <a href="#" class="js-menu nav-todo"><span class="icon-list-unordered" title="Show menu"></span></a>
         </div>
-        <h1 class="js-edit-list title-page"><span class="title-wrapper">{{name}}</span> <span class="count-list">{{incompleteCount}}</span></h1>
+        <h1 class="js-edit-list title-page"><span class="title-wrapper">{{name}}</span> <span class="count-list">{{incompleteCount}}</span><span class="owner">Curator: {{ownerLocalPart}}</span></h1>
+        <!-- <h1><span>{{ownerLocalPart}}</span></h1> -->
+        {{#if currentUser}}
         <div class="nav-group right">
           <div class="nav-todo options-mobile">
             <select class="list-edit">
@@ -22,6 +24,7 @@
               {{else}}
                 <option value="private">Make Private</option>
               {{/if}}
+<!--               <option value="share">Share</option> -->
               <option value="delete">Delete</option>
             </select>
             <span class="icon-cog"></span>
@@ -38,11 +41,16 @@
             <a class="js-share-list">
               <span class="icon-shared" title="Send List"></span>
             </a>
+            <a class="js-edit-this-list">
+              <span class=" icon-edited" title="Edit List"></span>
+            </a>
             <a class="js-delete-list nav-todo">
               <span class="icon-garb" title="Delete list"></span>
             </a>
           </div>
+
         </div>
+        {{/if}}
       {{/if}}
 
 

@@ -24,9 +24,11 @@
       {{/if}}
 
       <div class="list-todos">
-        <a class="js-new-list link-list-new"><span class="icon-plusSign"></span>New List</a>
+        {{#if currentUser}}
+          <a class="js-new-list link-list-new"><span class="icon-plusSign"></span>New List</a>
+        {{/if}}
+        {{> shareModal}}
         {{#each lists}}
-          {{> shareModal}}
           {{#if Privacy}}
             {{#if accessible}}
               <a href="{{pathFor 'listsShow'}}" class="list-todo {{activeListClass}}" title="{{name}}">
@@ -37,7 +39,8 @@
                 {{name}}
               </a>
             {{/if}}
-          {{else}}
+          {{/if}}
+          {{#if publicAccessible}}
             <a href="{{pathFor 'listsShow'}}" class="list-todo {{activeListClass}}" title="{{name}}">
               {{#if incompleteCount}}
                 <span class="count-list">{{incompleteCount}}</span>

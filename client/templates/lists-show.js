@@ -53,7 +53,19 @@ Template.listsShow.helpers({
     console.log("we are in todos");
     console.log(Todos.find({listId: this._id}, {sort: {createdAt : -1}}));
     return Todos.find({listId: this._id}, {sort: {createdAt : -1}});
-  }
+  },
+
+  ownerLocalPart: function() {
+    var email = this.owner;
+    console.log("we're figuring out the owner of this list and getting their name");
+    console.log(this.owner);
+    if (this.owner !== null) {
+      return email.substring(0, email.indexOf('@'));
+    } else {
+      return null;
+    }
+
+  },
 });
 
 var editList = function(list, template) {
@@ -66,7 +78,23 @@ var editList = function(list, template) {
 
 var saveList = function(list, template) {
   Session.set(EDITING_KEY, false);
-  Lists.update(list._id, {$set: {name: template.$('[name=name]').val()}});
+  console.log(template.$('[name=name]').val() === "");
+  if (template.$('[name=name]').val() === "" || template.$('[name=name]').val() === "Discover") {
+    Lists.update(list._id, {$set: {name: "Untitled"}});
+  } else {
+    Lists.update(list._id, {$set: {name: template.$('[name=name]').val()}});
+  }
+
+  //started the code for editing the names in the Discover list as well
+  // if (!list.Privacy) {
+  //   // var title = list.name;
+  //   var url= "/lists/" + list._id; //does this work lol
+  //   var listId = Lists.findOne({name: "Discover"})._id; //hopefully this works........
+  //   Meteor.subscribe('todos', Lists.findOne({name: "Discover"})._id);
+  //   var found = Todos.findOne({src:url});
+  //   Todos.update(found._id, {title: list.name});
+  // }
+
 };
 
 var deleteList = function(list) {
@@ -91,6 +119,17 @@ var deleteList = function(list) {
     });
     Lists.remove(list._id);
 
+    var link = "/lists/" + list._id;
+    Meteor.subscribe('todos', Lists.findOne({name: "Discover"})._id);
+    var found = Todos.findOne({src:link});
+    if (found) {
+      Todos.remove(found._id);
+      var discoverList = Lists.findOne({name: "Discover"})._id;
+      Lists.update(discoverList, {$inc: {incompleteCount: -1}});
+      Lists.update(list._id, {$set: {Privacy: true}});
+    }
+
+
     Router.go('home');
     return true;
   } else {
@@ -110,28 +149,74 @@ var toggleListPrivacy = function(list) {
 
   if (list.Privacy) {
     Lists.update(list._id, {$set: {Privacy: false}});
+
+    var thoughts = "";
+    var author = list.owner;
+    var title = list.name;
+    var url= "/lists/" + list._id; //does this work lol
+    var listId = Lists.findOne({name: "Discover"})._id; //hopefully this works........
+    var owner = Meteor.userId();
+    var createdAt = list.createdAt;
+     Todos.insert({title:title,author:author,thoughts:thoughts,src:url,height:1000,width:'25%',listId: listId, owner:owner, createdAt: createdAt});
+     Lists.update(listId, {$inc: {incompleteCount: 1}});
+     console.log("testing");
+     console.log(url);
+
   } else {
     // ensure the last public list cannot be made private
     if (Lists.find({Privacy: false}).count() === 1) {
       return alert("Sorry, you can't make the final public list private!");
     }
-
+    var link = "/lists/" + list._id;
+    Meteor.subscribe('todos', Lists.findOne({name: "Discover"})._id);
+    var found = Todos.findOne({src:link});
+    Todos.remove(found._id);
+    var discoverList = Lists.findOne({name: "Discover"})._id;
+    Lists.update(discoverList, {$inc: {incompleteCount: -1}});
     Lists.update(list._id, {$set: {Privacy: true}});
   }
 };
 
 Template.listsShow.events({
 
-  'click .js-share-list':function(event,tmpl){
+  'click .js-edit-this-list':function(event,tmpl){
     event.preventDefault();
-    Session.set('sharing_list',true);
+    if (! Meteor.user()) {
+      return alert("Please sign in or create an account to change list titles.");
+    } else if (Meteor.user().emails[0].address !== this.owner) {
+      return alert("You must be the owner of this list to change the title of this list.");
+    } else if (Meteor.user().emails[0].address === this.owner) {
+      console.log("Hi, you're the owner!");
+      event.preventDefault();
+      editList(this, tmpl);
+    }
+  },
+
+  'click .js-share-list':function(event,tmpl){
+    var listId = Router.current().params._id;
+    var list = Lists.findOne(listId);
+    event.preventDefault();
+    if (Meteor.user().emails[0].address !== list.owner){
+      return alert("You have to be the owner to share this list!");
+    } else {
+      
+      Session.set('sharing_list',true);
+    }
   },
 
   'click .addInterest':function(event,tmpl){
-    event.preventDefault();
-    console.log("this happens");
-    Session.set('adding_interest',true);
-    console.log(Session.get('adding_interest'));
+    console.log(this);
+
+    if (! Meteor.user()) {
+      return alert("Please sign in or create an account to add items to a list.");
+    } else if (Meteor.user().emails[0].address != this.owner) {
+      return alert("You must be the owner of this list to add items to the list.");
+    } else if (Meteor.user().emails[0].address == this.owner) {
+      console.log("Adding a list item");
+      event.preventDefault();
+      Session.set('adding_interest',true);
+      console.log(Session.get('adding_interest'));
+    }
   },
 
   'click .js-cancel': function() {
@@ -159,10 +244,10 @@ Template.listsShow.events({
 
   // handle mousedown otherwise the blur handler above will swallow the click
   // on iOS, we still require the click event so handle both
-  'mousedown .js-cancel, click .js-cancel': function(event) {
-    event.preventDefault();
-    Session.set(EDITING_KEY, false);
-  },
+  // 'mousedown .js-cancel, click .js-cancel': function(event) {
+  //   event.preventDefault();
+  //   Session.set(EDITING_KEY, false);
+  // },
 
   'change .list-edit': function(event, template) {
     if ($(event.target).val() === 'edit') {
@@ -176,9 +261,9 @@ Template.listsShow.events({
     event.target.selectedIndex = 0;
   },
 
-  'click .js-edit-list': function(event, template) {
-    editList(this, template);
-  },
+  // 'click .js-edit-list': function(event, template) {
+  //   editList(this, template);
+  // },
 
   'click .js-toggle-list-privacy': function(event, template) {
     toggleListPrivacy(this, template);
