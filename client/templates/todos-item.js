@@ -54,6 +54,9 @@ Template.todo.events({
   'click .js-edit-todo' : function(){
     console.log("edit"); //Why does the this._id work here?
     var discoverList = Lists.findOne(this.listId);
+      console.log("Meteor.userId:"+Meteor.userId());
+      console.log("this.owner:"+this.owner);
+    // if(Meteor.userId === this.owner)
     if (discoverList.name === "Discover") {
       return alert("Sorry! Can't do that with Discover list items!");
     }
@@ -118,6 +121,17 @@ Template.sharelist.events({
 
 
 Template.todo.helpers({
+
+  isOwnerOfList : function(){
+    console.log("Meteor.userId:"+ Meteor.userId());
+    console.log("this.owner:"+ this.owner);
+    if(Meteor.userId() === this.owner){
+      return true;
+    }
+    else{
+      return false;
+    }
+  },
 
   editingClass: function(){
   return Session.equals(EDITING_KEY, this._id) && 'editing';
