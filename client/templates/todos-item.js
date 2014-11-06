@@ -58,7 +58,13 @@ Template.sharelist.events({
     var listId = Router.current().params._id;
     var owner = Meteor.userId();
     var createdAt = new Date();
-    Lists.update(listId,{$push: {access: shareusername}});
+    // var list = Lists.findOne(listId,{access: {$exists: shareusername}});
+    // console.log(list);
+    // if (list !== null) {
+    //   Lists.update(listId,{$pull: {access: shareusername}});
+    // } else {
+      Lists.update(listId,{$push: {access: shareusername}});
+    // }
     // console.log(ListAccess.find().fetch());
     // console.log("hi");
     Session.set('sharing_list',false);

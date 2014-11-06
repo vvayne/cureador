@@ -57,7 +57,14 @@ Template.listsShow.helpers({
 
   ownerLocalPart: function() {
     var email = this.owner;
-    return email.substring(0, email.indexOf('@'));
+    console.log("we're figuring out the owner of this list and getting their name");
+    console.log(this.owner);
+    if (this.owner !== null) {
+      return email.substring(0, email.indexOf('@'));
+    } else {
+      return null;
+    }
+
   },
 });
 
@@ -71,7 +78,8 @@ var editList = function(list, template) {
 
 var saveList = function(list, template) {
   Session.set(EDITING_KEY, false);
-  if (template.$('[name=name').val() === "") {
+  console.log(template.$('[name=name]').val() === "");
+  if (template.$('[name=name]').val() === "") {
     Lists.update(list._id, {$set: {name: "Untitled"}});
   } else {
     Lists.update(list._id, {$set: {name: template.$('[name=name]').val()}});
