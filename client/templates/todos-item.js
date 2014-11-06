@@ -14,7 +14,7 @@ Template.form.events({
     var owner = Meteor.userId();
     var createdAt = new Date();
 
-    if(Session.get(EDITING_KEY) !== null){ //will this work without !==?
+    if(Session.get(EDITING_KEY)){
       console.log("got to editing");
       console.log(Session.get(EDITING_KEY));
       Todos.update(Session.get(EDITING_KEY), {$set: {title:title,author:author,thoughts:thoughts,src:url}});
@@ -42,12 +42,21 @@ Template.form.events({
 Template.todo.events({
 
   'mousedown .js-delete-todo, click .js-delete-todo': function() {
+    var discoverList = Lists.findOne(this.listId);
+    if (discoverList.name === "Discover") {
+      return alert("Sorry! Can't do that with Discover list items!");
+    }
     Todos.remove(this._id);
     if (! this.checked)
       Lists.update(this.listId, {$inc: {incompleteCount: -1}});
   },
 
   'click .js-edit-todo' : function(){
+    console.log("edit"); //Why does the this._id work here?
+    var discoverList = Lists.findOne(this.listId);
+    if (discoverList.name === "Discover") {
+      return alert("Sorry! Can't do that with Discover list items!");
+    }
     Session.set(EDITING_KEY, this._id);
     Session.set('adding_interest',true);
   }

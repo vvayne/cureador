@@ -92,6 +92,15 @@ Template.appBody.helpers({
     return false;
   },
 
+  publicAccessible: function() {
+    if (this.name === "Discover") {
+      return this.name === "Discover";
+    } else if (this.owner === Meteor.user().emails[0].address && !this.Privacy) {
+      return true;
+    }
+
+  },
+
   activeListClass: function() {
     var current = Router.current();
     if (current.route.name === 'listsShow' && current.params._id === this._id) {
@@ -137,8 +146,7 @@ Template.appBody.events({
     console.log(current.data().userId);
     if (current.route.name === 'listsShow') {
       console.log("We are in the logout function");
-      console.log(Lists.findOne({Privacy: false}));
-      Router.go('listsShow', Lists.findOne({Privacy: false}));
+      Router.go('home'); //I think this works.
     }
   },
 
@@ -146,8 +154,9 @@ Template.appBody.events({
      if (! Meteor.user()) {
       return alert("Please sign in or create an account to make lists.");
     }
+    var CreatedAt = new Date();
 
-   var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: false, access:[Meteor.user().emails[0].address], owner: Meteor.user().emails[0].address};
+   var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[Meteor.user().emails[0].address], owner: Meteor.user().emails[0].address, createdAt: CreatedAt, DiscoverList: false};
     console.log(list);
     list._id = Lists.insert(list);
     console.log(list);
