@@ -154,8 +154,15 @@ Template.listsShow.events({
   },
 
   'click .js-share-list':function(event,tmpl){
+    var listId = Router.current().params._id;
+    var list = Lists.findOne(listId);
     event.preventDefault();
-    Session.set('sharing_list',true);
+    if (Meteor.user().emails[0].address !== list.owner){
+      return alert("You have to be the owner to share this list!");
+    } else {
+      
+      Session.set('sharing_list',true);
+    }
   },
 
   'click .addInterest':function(event,tmpl){
