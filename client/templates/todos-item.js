@@ -1,5 +1,6 @@
-var EDITING_KEY = 'EDITING_ID';
 
+var EDITING_KEY = 'editing';
+Session.setDefault(EDITING_KEY,null);
 
 Template.form.events({
 // Why doesn't this thing work for this._id? Got the edit function to work.
@@ -12,6 +13,7 @@ Template.form.events({
     var listId = Router.current().params._id;
     var owner = Meteor.userId();
     var createdAt = new Date();
+
     if(Session.get(EDITING_KEY)){
       console.log("got to editing");
       console.log(Session.get(EDITING_KEY));
@@ -20,6 +22,7 @@ Template.form.events({
       Session.set('adding_interest',false);
      }
      else{
+       console.log("this was inserted)");
        Todos.insert({title:title,author:author,thoughts:thoughts,src:url,height:1000,width:'25%',listId: listId, owner:owner, createdAt: createdAt,});
        Lists.update(listId, {$inc: {incompleteCount: 1}});
        Session.set('adding_interest',false);
@@ -145,10 +148,3 @@ Template.sharelist.helpers({
     return currList;
   }
 });
-
-
-
-
-
-
-

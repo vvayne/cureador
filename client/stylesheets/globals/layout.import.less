@@ -3,8 +3,8 @@
 
 body {
   .position(absolute, 0, 0, 0, 0);
-  background-color: #8932c5;
-  .background-image( linear-gradient(top, #b21e1e, #918e82 100%) );
+   background-color: #8932c5; //purple?
+  .background-image( linear-gradient(top, #b21e1e, #918e82 100%) ); //red,almost gray,
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -31,7 +31,7 @@ body {
 }
 
 #content-container {
-  .position(absolute, 0, 0, 0, 0);
+  .position(absolute, 0, 0, 0, 0); //affects everything
   .transition(all 200ms ease-out);
   .transform(translate3d(0, 0, 0));
   background: @color-tertiary;
@@ -42,7 +42,7 @@ body {
   }
 
   .content-scrollable {
-    .position(absolute, 0, 0, 0, 0);
+    .position(absolute, 0, 0, 0, 0); //affects white background in body
     .transform(translate3d(0, 0, 0));
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
