@@ -61,9 +61,6 @@
     </nav>
 
     <div class="content-scrollable list-todos">
-    {{#if adding_interest}}
-      {{> form}}
-    {{/if}}
       {{#if todosReady}}
         {{#each todos}}
           {{> todo}}
@@ -73,6 +70,9 @@
             <div class="subtitle-message">Add new items using the field above</div>
           </div>
         {{/each}}
+        {{#if adding_interest}}
+          {{> form}}
+        {{/if}}
       {{else}}
           <div class="wrapper-message">
             <div class="title-message">Loading articles...</div>

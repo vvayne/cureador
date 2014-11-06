@@ -39,6 +39,7 @@ Template.listsShow.helpers({
 
   adding_interest : function() {
     return Session.get('adding_interest');
+    console.log("This goes through");
    },
 
   editing: function() {
@@ -124,7 +125,7 @@ var toggleListPrivacy = function(list) {
   if (Meteor.user().emails[0].address != list.owner) {
     return alert("You must be the owner of this list to make it private.");
   }
-  
+
 
   if (list.Privacy) {
     Lists.update(list._id, {$set: {Privacy: false}});
@@ -160,7 +161,7 @@ Template.listsShow.events({
     if (Meteor.user().emails[0].address !== list.owner){
       return alert("You have to be the owner to share this list!");
     } else {
-      
+
       Session.set('sharing_list',true);
     }
   },
