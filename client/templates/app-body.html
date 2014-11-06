@@ -24,7 +24,9 @@
       {{/if}}
 
       <div class="list-todos">
-        <a class="js-new-list link-list-new"><span class="icon-plusSign"></span>New List</a>
+        {{#if currentUser}}
+          <a class="js-new-list link-list-new"><span class="icon-plusSign"></span>New List</a>
+        {{/if}}
         {{> shareModal}}
         {{#each lists}}
           {{#if Privacy}}
