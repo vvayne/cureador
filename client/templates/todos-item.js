@@ -12,7 +12,7 @@ Template.form.events({
     var listId = Router.current().params._id;
     var owner = Meteor.userId();
     var createdAt = new Date();
-     if(Session.get(EDITING_KEY) != null){
+    if(Session.get(EDITING_KEY) !== null){
       console.log("got to editing");
       console.log(Session.get(EDITING_KEY));
       Todos.update(Session.get(EDITING_KEY), {$set: {title:title,author:author,thoughts:thoughts,src:url}});
@@ -58,7 +58,23 @@ Template.sharelist.events({
     var listId = Router.current().params._id;
     var owner = Meteor.userId();
     var createdAt = new Date();
-    Lists.update(listId,{$push: {access: shareusername}});
+    var list = Lists.findOne(listId);
+    var arr = list.access;
+    var foundIt = false;
+    if (arr !== null) {
+      for (var i = 0; i < arr.length; i++) {
+          if (arr[i] === shareusername) {
+            console.log("trying to delete something");
+            Lists.update({_id: listId},{$pull: {access: shareusername}});
+            foundIt = true;
+          }
+      }
+      if (!foundIt) {
+        Lists.update({_id: listId},{$push: {access: shareusername}});
+      }
+      
+    }
+
     // console.log(ListAccess.find().fetch());
     // console.log("hi");
     Session.set('sharing_list',false);
@@ -85,4 +101,28 @@ Template.form.helpers({
      console.log("does this happen");
      return Session.get('adding_interest');
  }
-})
+});
+
+Template.sharelist.helpers({
+  listOfAccessibleEmails: function() {
+    var currList = "";
+    console.log("Hi, sharing list");
+    console.log(this);
+    var arr = this.access;
+    console.log(arr);
+    if (arr !== null) {
+      for (var i = 0; i < arr.length; i++) {
+        currList += arr[i];
+        currList += ", ";
+      }
+    }
+    return currList;
+  }
+});
+
+
+
+
+
+
+
