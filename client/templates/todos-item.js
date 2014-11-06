@@ -39,6 +39,10 @@ Template.form.events({
 Template.todo.events({
 
   'mousedown .js-delete-todo, click .js-delete-todo': function() {
+    var discoverList = Lists.findOne(this.listId);
+    if (discoverList.name === "Discover") {
+      return alert("Sorry! Can't do that with Discover list items!");
+    }
     Todos.remove(this._id);
     if (! this.checked)
       Lists.update(this.listId, {$inc: {incompleteCount: -1}});
@@ -46,6 +50,10 @@ Template.todo.events({
 
   'click .js-edit-todo' : function(){
     console.log("edit"); //Why does the this._id work here?
+    var discoverList = Lists.findOne(this.listId);
+    if (discoverList.name === "Discover") {
+      return alert("Sorry! Can't do that with Discover list items!");
+    }
     Session.set(EDITING_KEY, this._id);
     Session.set('adding_interest',true);
   }

@@ -79,11 +79,21 @@ var editList = function(list, template) {
 var saveList = function(list, template) {
   Session.set(EDITING_KEY, false);
   console.log(template.$('[name=name]').val() === "");
-  if (template.$('[name=name]').val() === "") {
+  if (template.$('[name=name]').val() === "" || template.$('[name=name]').val() === "Discover") {
     Lists.update(list._id, {$set: {name: "Untitled"}});
   } else {
     Lists.update(list._id, {$set: {name: template.$('[name=name]').val()}});
   }
+
+  //started the code for editing the names in the Discover list as well
+  // if (!list.Privacy) {
+  //   // var title = list.name;
+  //   var url= "/lists/" + list._id; //does this work lol
+  //   var listId = Lists.findOne({name: "Discover"})._id; //hopefully this works........
+  //   Meteor.subscribe('todos', Lists.findOne({name: "Discover"})._id);
+  //   var found = Todos.findOne({src:url});
+  //   Todos.update(found._id, {title: list.name});
+  // }
 
 };
 
@@ -109,6 +119,17 @@ var deleteList = function(list) {
     });
     Lists.remove(list._id);
 
+    var link = "/lists/" + list._id;
+    Meteor.subscribe('todos', Lists.findOne({name: "Discover"})._id);
+    var found = Todos.findOne({src:link});
+    if (found) {
+      Todos.remove(found._id);
+      var discoverList = Lists.findOne({name: "Discover"})._id;
+      Lists.update(discoverList, {$inc: {incompleteCount: -1}});
+      Lists.update(list._id, {$set: {Privacy: true}});
+    }
+
+
     Router.go('home');
     return true;
   } else {
@@ -128,12 +149,30 @@ var toggleListPrivacy = function(list) {
 
   if (list.Privacy) {
     Lists.update(list._id, {$set: {Privacy: false}});
+
+    var thoughts = "";
+    var author = list.owner;
+    var title = list.name;
+    var url= "/lists/" + list._id; //does this work lol
+    var listId = Lists.findOne({name: "Discover"})._id; //hopefully this works........
+    var owner = Meteor.userId();
+    var createdAt = list.createdAt;
+     Todos.insert({title:title,author:author,thoughts:thoughts,src:url,height:1000,width:'25%',listId: listId, owner:owner, createdAt: createdAt});
+     Lists.update(listId, {$inc: {incompleteCount: 1}});
+     console.log("testing");
+     console.log(url);
+
   } else {
     // ensure the last public list cannot be made private
     if (Lists.find({Privacy: false}).count() === 1) {
       return alert("Sorry, you can't make the final public list private!");
     }
-
+    var link = "/lists/" + list._id;
+    Meteor.subscribe('todos', Lists.findOne({name: "Discover"})._id);
+    var found = Todos.findOne({src:link});
+    Todos.remove(found._id);
+    var discoverList = Lists.findOne({name: "Discover"})._id;
+    Lists.update(discoverList, {$inc: {incompleteCount: -1}});
     Lists.update(list._id, {$set: {Privacy: true}});
   }
 };

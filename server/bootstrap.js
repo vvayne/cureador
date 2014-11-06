@@ -1,4 +1,12 @@
 // if the database is empty on server start, create some sample data.
+
+
+Meteor.startup(function () {
+	if (Lists.find().count() === 0) {
+      var CreatedAt = new Date();
+      Lists.insert({name: "Discover", incompleteCount: 0, Privacy: false, owner: "CureadorTeam@gmail.com", DiscoverList: true, createdAt: CreatedAt});
+	}
+});
 // Meteor.startup(function () {
 //   if (Lists.find().count() === 0) {
 //     var data = [
