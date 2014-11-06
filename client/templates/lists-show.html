@@ -14,6 +14,7 @@
         </div>
         <h1 class="js-edit-list title-page"><span class="title-wrapper">{{name}}</span> <span class="count-list">{{incompleteCount}}</span><span class="owner">Curator: {{ownerLocalPart}}</span></h1>
         <!-- <h1><span>{{ownerLocalPart}}</span></h1> -->
+        {{#if currentUser}}
         <div class="nav-group right">
           <div class="nav-todo options-mobile">
             <select class="list-edit">
@@ -47,7 +48,9 @@
               <span class="icon-garb" title="Delete list"></span>
             </a>
           </div>
+
         </div>
+        {{/if}}
       {{/if}}
 
 
