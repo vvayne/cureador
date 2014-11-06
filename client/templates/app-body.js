@@ -146,7 +146,7 @@ Template.appBody.events({
     console.log(current.data().userId);
     if (current.route.name === 'listsShow') {
       console.log("We are in the logout function");
-      Router.go('home');
+      Router.go('home'); //I think this works.
     }
   },
 

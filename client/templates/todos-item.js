@@ -12,7 +12,7 @@ Template.form.events({
     var listId = Router.current().params._id;
     var owner = Meteor.userId();
     var createdAt = new Date();
-    if(Session.get(EDITING_KEY) !== null){
+    if(Session.get(EDITING_KEY)){
       console.log("got to editing");
       console.log(Session.get(EDITING_KEY));
       Todos.update(Session.get(EDITING_KEY), {$set: {title:title,author:author,thoughts:thoughts,src:url}});

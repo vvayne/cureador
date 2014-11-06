@@ -149,9 +149,10 @@ var toggleListPrivacy = function(list) {
 
   if (list.Privacy) {
     Lists.update(list._id, {$set: {Privacy: false}});
+    var auth = list.owner;
 
     var thoughts = "";
-    var author = list.owner;
+    var author = auth.substring(0, auth.indexOf('@'));
     var title = list.name;
     var url= "/lists/" + list._id; //does this work lol
     var listId = Lists.findOne({name: "Discover"})._id; //hopefully this works........
