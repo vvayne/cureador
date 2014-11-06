@@ -11,14 +11,19 @@
 </template> -->
 
 <template name= "todo">
-  <div class="item well well-large span5 {{editingClass}}">
+  <div class="item well span4 {{editingClass}}">
     <h4 class="muted">{{title}}<span style= "font-size:16px;"> by</span> {{author}}</h4>
     <p>{{thoughts}}</p>
-    <a target= "_new" href={{src}} >Link</a>
-    <a class="js-delete-todo delete-todo" href="#"><span class="icon-garb"></span></a>
-    <a class="js-edit-todo" href="#">Edit</a>
+    <a target= "_new" href={{src}} style="font-size:16px; color:#40a4ff;">Link</a>
+    <div>
+      {{#if isOwnerOfList}}
+    <a class="js-edit-todo" href="#" style="font-size:12px;">Edit</a>
+    <a class="js-delete-todo delete-todo nav-bar right" href="#" style="font-size:12px;"><span class="icon-garb"></span></a>
+    {{/if}}
+  </div>
   </div>
 </template>
+
 
 <template name="form">
     <div id="example" class="modal">

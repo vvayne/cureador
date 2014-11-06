@@ -37,6 +37,12 @@ Template.listsShow.rendered = function() {
 
 Template.listsShow.helpers({
 
+  // isOwnerOfList : function(){
+  //   if(Meteor.userId === this.owner){
+  //
+  //   }
+  // }
+
   adding_interest : function() {
     return Session.get('adding_interest');
     console.log("This goes through");
