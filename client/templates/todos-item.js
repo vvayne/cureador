@@ -23,7 +23,7 @@ Template.form.events({
      }
      else{
        console.log("this was inserted)");
-       Todos.insert({title:title,author:author,thoughts:thoughts,src:url,height:1000,width:'25%',listId: listId, owner:owner, createdAt: createdAt,});
+       Todos.insert({title:title,author:author,thoughts:thoughts,src:url,height:1000,width:'25%',listId: listId, owner:owner, createdAt: createdAt});
        Lists.update(listId, {$inc: {incompleteCount: 1}});
        Session.set('adding_interest',false);
      }
@@ -73,7 +73,12 @@ Template.sharelist.events({
     var owner = Meteor.userId();
     var createdAt = new Date();
     var list = Lists.findOne(listId);
-
+    // if(Session.get(spanItem) === "span5"){
+    //   Session.set(spanItem,"span4");
+    // }
+    // else{
+    //   Session.set(spanItem,"span5");
+    // }
     // var actualUser = Meteor.users.findOne({ "emails.address":shareusername});
     // console.log("merp");
     // console.log(actualUser);
@@ -121,6 +126,12 @@ Template.sharelist.events({
 
 
 Template.todo.helpers({
+
+  notDiscover: function(){
+    console.log(Lists.findOne(this.listId).name);
+    if(Lists.findOne(this.listId).name === "Discover") return false;
+    else{ return true;}
+  },
 
   isOwnerOfList : function(){
     console.log("Meteor.userId:"+ Meteor.userId());

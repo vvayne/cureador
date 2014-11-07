@@ -17,8 +17,10 @@
     <a target= "_new" href={{src}} style="font-size:16px; color:#40a4ff;">Link</a>
     <div>
       {{#if isOwnerOfList}}
+      {{#if notDiscover}}
     <a class="js-edit-todo" href="#" style="font-size:12px;">Edit</a>
     <a class="js-delete-todo delete-todo nav-bar right" href="#" style="font-size:12px;"><span class="icon-garb"></span></a>
+    {{/if}}
     {{/if}}
   </div>
   </div>
