@@ -27,7 +27,7 @@
 </template>
 
 
-<template name="form">
+<template name="modalForm">
     <div id="example" class="modal">
     <div class="modal-header">
     <a class="close" data-dismiss="modal">x</a>
@@ -36,7 +36,8 @@
     <div class="modal-body">
       <input class="title" type="text" name="title" value="" id="title" placeholder="Title">
       <input class="author" type="text" name="author" value="" id="author" placeholder="Author">
-      <input class="thoughts" type="text" name="thoughts" value="" id="thoughts" placeholder="Thoughts">
+      <textarea class="thoughts" name="thoughts" placeholder= "thoughts" value="" rows="8" cols="40"></textarea>
+      <!-- <input class="thoughts" type="text" name="thoughts" value="" id="thoughts" placeholder="Thoughts"> -->
       <input class="src" type="text" name="url" value="" id="url" placeholder="Url">
     </div>
     <div class= "modal-footer">

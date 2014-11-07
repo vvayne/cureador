@@ -2,7 +2,7 @@
 var EDITING_KEY = 'editing';
 Session.setDefault(EDITING_KEY,null);
 
-Template.form.events({
+Template.modalForm.events({
 // Why doesn't this thing work for this._id? Got the edit function to work.
   'click .save':function(evt,tmpl){
     // event.preventDefault(); not sure what this does.
@@ -150,7 +150,7 @@ Template.todo.helpers({
 
 });
 
-Template.form.helpers({
+Template.modalForm.helpers({
   adding_interest : function() {
      console.log("does this happen");
      return Session.get('adding_interest');
