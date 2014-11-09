@@ -108,8 +108,10 @@ Template.todo.events({
     //  thoughts = Todos.findOne(this._id).thoughts;
     //  url = Todos.findOne(this._id).src;
     Session.set(editingItem,true);
-  }
+  },
+
 });
+
 
 Template.sharelist.events({
   'click .save':function(evt,tmpl){
@@ -192,7 +194,15 @@ Template.todo.helpers({
 
   editingClass: function(){
   return Session.equals(EDITING_KEY, this._id) && 'editing';
-}
+},
+
+domain: function() {
+  var a = document.createElement('a');
+  console.log("1"+a);
+  a.href = this.src;
+  console.log(a.hostname);
+  return a.hostname;
+},
 
 });
 
