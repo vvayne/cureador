@@ -48,7 +48,6 @@
               <span class="icon-garb" title="Delete list"></span>
             </a>
           </div>
-
         </div>
         {{/if}}
       {{/if}}
@@ -72,6 +71,9 @@
         {{/each}}
         {{#if adding_interest}}
           {{> modalForm}}
+        {{/if}}
+        {{#if editingItem}}
+          {{> editForm}}
         {{/if}}
       {{else}}
           <div class="wrapper-message">

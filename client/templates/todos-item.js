@@ -1,10 +1,14 @@
 
 var EDITING_KEY = 'editing';
+var editingItem = 'edtItm';
+
 Session.setDefault(EDITING_KEY,null);
+Session.setDefault(editingItem,false);
 
 Template.modalForm.events({
 // Why doesn't this thing work for this._id? Got the edit function to work.
   'click .save':function(evt,tmpl){
+
     // event.preventDefault(); not sure what this does.
     var thoughts = tmpl.find('.thoughts').value;
     var author = tmpl.find('.author').value;
@@ -14,19 +18,10 @@ Template.modalForm.events({
     var owner = Meteor.userId();
     var createdAt = new Date();
 
-    if(Session.get(EDITING_KEY)){
-      console.log("got to editing");
-      console.log(Session.get(EDITING_KEY));
-      Todos.update(Session.get(EDITING_KEY), {$set: {title:title,author:author,thoughts:thoughts,src:url}});
-      Session.set(EDITING_KEY,null);
-      Session.set('adding_interest',false);
-     }
-     else{
-       console.log("this was inserted)");
+       console.log("this was inserted");
        Todos.insert({title:title,author:author,thoughts:thoughts,src:url,height:1000,width:'25%',listId: listId, owner:owner, createdAt: createdAt});
        Lists.update(listId, {$inc: {incompleteCount: 1}});
        Session.set('adding_interest',false);
-     }
   },
 
   'click .cancel':function(evt,tmpl){
@@ -38,6 +33,61 @@ Template.modalForm.events({
     Session.set(EDITING_KEY,null);
   }
 });
+
+Template.editForm.events({
+// Why doesn't this thing work for this._id? Got the edit function to work.
+  'click .save':function(evt,tmpl){
+    // event.preventDefault(); not sure what this does.
+    var thoughts = tmpl.find('.thoughts').value;
+    var author = tmpl.find('.author').value;
+    var title = tmpl.find('.title').value;
+    var url= tmpl.find('.src').value;
+    var listId = Router.current().params._id;
+
+      console.log("got to editing");
+      console.log(Session.get(EDITING_KEY));
+      Todos.update(Session.get(EDITING_KEY), {$set: {title:title,author:author,thoughts:thoughts,src:url}});
+      Session.set(EDITING_KEY,null);
+      Session.set(editingItem,false);
+      console.log("EXITING editForm");
+
+  },
+
+  'click .cancel':function(evt,tmpl){
+    Session.set(editingItem,false);
+    Session.set(EDITING_KEY,null);
+  },
+  'click .close':function(evt,tmpl){
+    Session.set(editingItem,false);
+    Session.set(EDITING_KEY,null);
+  }
+});
+
+Template.editForm.helpers({
+  title : function(){
+    var thisId = Session.get(EDITING_KEY);
+    //console.log("thisId"+thisId); Why does this keep going even though not editing form? nov 8
+    if(thisId) var editTitle = Todos.findOne(thisId).title;
+    return editTitle;
+  },
+
+  thoughts: function(){
+    var thisId = Session.get(EDITING_KEY);
+    if(thisId) return Todos.findOne(thisId).thoughts;
+  },
+
+  src: function(){
+    var thisId = Session.get(EDITING_KEY);
+    if(thisId) return Todos.findOne(thisId).src;
+  },
+
+  author: function(){
+    var thisId = Session.get(EDITING_KEY);
+    if(thisId) return Todos.findOne(thisId).author;
+  },
+
+
+})
 
 Template.todo.events({
 
@@ -52,16 +102,12 @@ Template.todo.events({
   },
 
   'click .js-edit-todo' : function(){
-    console.log("edit"); //Why does the this._id work here?
-    var discoverList = Lists.findOne(this.listId);
-      console.log("Meteor.userId:"+Meteor.userId());
-      console.log("this.owner:"+this.owner);
-    // if(Meteor.userId === this.owner)
-    if (discoverList.name === "Discover") {
-      return alert("Sorry! Can't do that with Discover list items!");
-    }
     Session.set(EDITING_KEY, this._id);
-    Session.set('adding_interest',true);
+
+    //  author = Todos.findOne(this._id).author;
+    //  thoughts = Todos.findOne(this._id).thoughts;
+    //  url = Todos.findOne(this._id).src;
+    Session.set(editingItem,true);
   }
 });
 

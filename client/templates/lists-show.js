@@ -1,4 +1,5 @@
 var EDITING_KEY = 'editingList';
+var editingItem = 'edtItm';
 
 Session.setDefault(EDITING_KEY, false);
 
@@ -40,6 +41,11 @@ Template.listsShow.helpers({
   adding_interest : function() {
     return Session.get('adding_interest');
     console.log("This goes through");
+   },
+
+   editingItem: function(){
+     return Session.get(editingItem);
+     console.log(editingItem);
    },
 
   editing: function() {
@@ -274,25 +280,4 @@ Template.listsShow.events({
   'click .js-delete-list': function(event, template) {
     deleteList(this, template);
   }
-
-  // 'click .js-todo-add': function(event, template) {
-  //   template.$('.js-todo-new input').focus();
-  // },
-  //
-  // 'submit .js-todo-new': function(event) {
-  //   event.preventDefault();
-
-    // var $input = $(event.target).find('[type=text]');
-    // if (! $input.val())
-    //   return;
-    //
-    // Todos.insert({
-    //   listId: this._id,
-    //   text: $input.val(),
-    //   checked: false,
-    //   createdAt: new Date()
-    // });
-  //   Lists.update(this._id, {$inc: {incompleteCount: 1}});
-  //   $input.val('');
-  // }
 });
