@@ -3,8 +3,8 @@
 
 body {
   .position(absolute, 0, 0, 0, 0);
-   background-color: #8932c5; //purple?
-  .background-image( linear-gradient(top, #b21e1e, #918e82 100%) ); //red,almost gray,
+   background-color: white;
+     // .background-image( linear-gradient(top, #b21e1e, #918e82 100%) ); //red,almost gray,
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -34,7 +34,8 @@ body {
   .position(absolute, 0, 0, 0, 0); //affects everything
   .transition(all 200ms ease-out);
   .transform(translate3d(0, 0, 0));
-  background: @color-tertiary;
+  background: @color-empty;
+  // background: @color-tertiary;
   opacity: 1;
 
   @media screen and (min-width: 40em) {
@@ -46,6 +47,11 @@ body {
     .transform(translate3d(0, 0, 0));
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .item.well.span4 {
+    background-color: white;
+    border-color: gray;
   }
 
   .js-title-nav {

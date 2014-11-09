@@ -2,22 +2,26 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 
+  border-width: 1px;
+  border-right-style: solid;
   .btns-group,
   .btns-group-vertical {
-    margin: 2em auto 2em;
+    // margin: 0em auto 0em;
+    
     width: 100%;
-
     .btn-secondary {
       .font-s1;
       padding-top: .5em;
       padding-bottom: .5em;
+      color: black;
+
     }
   }
 
   .btns-group-vertical .btn-secondary {
     .force-wrap;
     padding-right: 2.5em;
-    text-align: left;
+    // text-align: left;
     text-indent: 0;
     white-space: normal; // Resets wrapping
     width: 100%;
@@ -26,8 +30,8 @@
       margin-top: .5rem;
 
       &:before {
-        .position(absolute, -.5rem, 50%, auto, auto, 1px, .5rem);
-        background: lighten(#517096, 5%);
+        // .position(absolute, -.5rem, 50%, auto, auto, 1px, .5rem);
+        // background: lighten(#517096, 5%);
         content: '';
       }
     }
@@ -41,7 +45,8 @@
 
   .list-todos {
     a {
-      box-shadow: rgba(255,255,255,.15) 0 1px 0 0;
+      color: black;
+      // box-shadow: rgba(255,255,255,.15) 0 1px 0 0;
       display: block;
       line-height: 1.5em;
       padding: .75em 2.5em;
@@ -77,13 +82,13 @@
     }
 
     .list-todo {
-      color: rgba(255,255,255,.4);
-
+      // color: rgba(255,255,255,.4);
+      color:gray;
       &:hover,
       &:active,
       &.active {
-        color: @color-empty;
-        .count-list { background: @color-primary; }
+        color: black;
+        .count-list { background: white; }
       }
 
       .cordova &:hover {

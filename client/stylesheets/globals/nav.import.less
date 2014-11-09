@@ -34,8 +34,14 @@ nav {
 
 // Custom nav for lists-show
 .page.lists-show nav {
-  .background-image( linear-gradient(top, #d0edf5, #e1e5f0 100%) );
+  // .background-image( linear-gradient(top, #d0edf5, #e1e5f0 100%) );
+  background: @color-empty;
   height: 5em;
+  // border-top-style: none;
+  // border-right-style: none;
+  // border-bottom-style: solid;
+  // border-left-style: none;
+  // border-width:1px;
 
   text-align: center;
   @media screen and (min-width: 40em) { text-align: left; }
@@ -52,16 +58,17 @@ nav {
       .ellipsized;
       color: @color-ancillary;
       display: inline-block;
-      padding-right: 1.5rem;
+      // padding-right: 1.5rem;
       vertical-align: top;
       max-width: 100%;
     }
 
-    .count-list {
+    .count-list {//big circle button
+      display: none;
       background: @color-primary;
       border-radius: 1em;
       color: @color-empty;
-      display: inline-block;
+      // display: inline-block;
       font-size: 1rem;
       line-height: 1;
       margin-left: -1.25rem;
@@ -83,7 +90,7 @@ nav {
     input[type="text"] {
       background: transparent;
       padding-bottom: .25em;
-      padding-left: 44px !important;
+      padding-left: 22px !important;
       padding-top: .25em;
     }
   }
@@ -96,6 +103,8 @@ nav {
       width: 100%;
       text-align: center;
       padding-right: 3em;
+      padding-bottom: 20px;
+      padding-top:20px;
       // padding-left: 1rem;
       margin-top:18px;
     }
