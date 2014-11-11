@@ -118,6 +118,15 @@ Template.appBody.helpers({
 
 Template.appBody.events({
 
+  'mouseleave #menu' : function(){
+    console.log("Left menu");
+    $("#menu").css("position","(absolute, 0, 0, 0, 0, 0");
+  },
+
+  'mouseenter #menu' : function(){
+    $("#menu").css("position","absolute, 0, 0, 0, 0, @menu-width");
+  },
+
   'click .js-menu': function() {
     Session.set(MENU_KEY, ! Session.get(MENU_KEY));
   },
