@@ -5,7 +5,7 @@
         <form class="js-edit-form list-edit-form">
           <input type="text" name="name" value="{{name}}">
           <div class="nav-group right">
-            <a href="#" class="js-cancel nav-todo"><span class="icon-close js-cancel" title="Cancel"></span></a>
+            <!-- <a href="#" class="js-cancel nav-todo"><span class="icon-close js-cancel" title="Cancel"></span></a> -->
           </div>
         </form>
       {{else}}
@@ -29,24 +29,15 @@
             </select>
             <span class="icon-cog"></span>
           </div>
+
           <div class="options-web">
-            <a class="addInterest"><span class="icon-add"></span></a>
-            <a class="js-toggle-list-privacy nav-todo">
-              {{#if Privacy}}
-                 <span class="icon-locked" title="Make list public"></span>
-              {{else}}
-                <span class="icon-unlock" title="Make list private"></span>
-              {{/if}}
-            </a>
-            <a class="js-share-list">
-              <span class="icon-shared" title="Send List"></span>
-            </a>
-            <a class="js-edit-this-list">
-              <span class=" icon-edited" title="Edit List"></span>
-            </a>
-            <a class="js-delete-list nav-todo">
-              <span class="icon-garb" title="Delete list"></span>
-            </a>
+            {{#if isOwnerOfListCompareName}}
+            <a class="addInterest" data-toggle="modal" data-target="#myModal"><span class="icon-add" title="Add!"></span></a>
+            <a class="js-toggle-list-privacy">{{#if Privacy}}<span class="icon-locked" title="Make list public"></span>{{else}}<span class="icon-unlock" title="Make list private"></span>{{/if}}</a>
+            <a class="js-share-list" data-toggle="modal" data-target="#shareList"><span class="icon-shared" title="Send List"></span></a>
+            <a class="js-edit-this-list"><span class=" icon-edited" title="Edit List"></span></a>
+            <a class="js-delete-list"><span class="icon-garb" title="Delete list"></span></a>
+            {{/if}}
           </div>
         </div>
         {{/if}}
@@ -59,35 +50,36 @@
       </form> -->
     </nav>
 
-    <div class="content-scrollable list-todos">
+    <div class="content-scrollable list-todos js-masonry" id="theContainer" data-masonry-options='{ "columnWidth": 200, "itemSelector": ".item" }'>
       {{#if todosReady}}
         {{#each todos}}
           {{> todo}}
         {{else}}
           <div class="wrapper-message">
-            <div class="title-message">No articles here</div>
-            <div class="subtitle-message">Add new items using the field above</div>
+            <div class="title-message">No articles yet</div>
+            <!-- <div class="subtitle-message"></div> -->
           </div>
         {{/each}}
-        {{#if adding_interest}}
-          {{> modalForm}}
-        {{/if}}
-        {{#if editingItem}}
-          {{> editForm}}
-        {{/if}}
       {{else}}
           <div class="wrapper-message">
             <div class="title-message">Loading articles...</div>
           </div>
       {{/if}}
+      <div class="toggleExpand">
+        {{#if isMenuHidden}}
+        <a class="expandMenu" ><span class="glyphicon glyphicon-chevron-right"></span></a>
+        {{else}}
+        <a class="hideMenu"><span class= "glyphicon glyphicon-chevron-left"></span></a>
+        {{/if}}
+      </div>
     </div>
   </div>
 </template>
 
-<template name="shareModal">
+<!-- <template name="shareModal">
   <input type="hidden" name= "updated" value="{{updated}}" id="updated">
   {{#if sharing_list}}
   {{> sharelist}}
   {{/if}}
 
-</template>
+</template> -->

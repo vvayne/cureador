@@ -5,6 +5,9 @@ Session.setDefault(EDITING_KEY, false);
 
 Session.setDefault('sharing_list',false);
 
+var HIDE_MENU = 'hideMenu';
+Session.setDefault(HIDE_MENU, false);
+
 // Session.setDefault('adding_interest',false);
 
 // Template.main.adding_interest = function () {
@@ -12,13 +15,13 @@ Session.setDefault('sharing_list',false);
 // }
 
 
-Template.shareModal.helpers({
-
-  sharing_list: function(){
-  return Session.get('sharing_list');
-  }
-
-});
+// Template.shareModal.helpers({
+//
+//   sharing_list: function(){
+//   return Session.get('sharing_list');
+//   }
+//
+// });
 
 Template.listsShow.rendered = function() {
   this.find('.js-title-nav')._uihooks = {
@@ -37,6 +40,18 @@ Template.listsShow.rendered = function() {
 };
 
 Template.listsShow.helpers({
+
+  isOwnerOfListCompareName : function(){
+    console.log("Meteor.userId:"+ Meteor.userId());
+    console.log("this.owner:"+ this.owner);
+
+    if(Meteor.user().emails[0].address === this.owner){
+      return true;
+    }
+    else{
+      return false;
+    }
+  },
 
   adding_interest : function() {
     return Session.get('adding_interest');
@@ -73,6 +88,10 @@ Template.listsShow.helpers({
     }
 
   },
+
+  isMenuHidden: function(){
+    return Session.get(HIDE_MENU);
+  },
 });
 
 var editList = function(list, template) {
@@ -106,17 +125,17 @@ var saveList = function(list, template) {
 
 var deleteList = function(list) {
   // ensure the last public list cannot be deleted.
-  if (! Meteor.user()) {
-    return alert("Please sign in or create an account to delete lists.");
-  }
-
-  if (Meteor.user().emails[0].address != list.owner) {
-    return alert("You must be the owner of this list to delete this list.");
-  }
-
-  if (! list.userId && Lists.find({userId: {$exists: false}}).count() === 1) {
-    return alert("Sorry, you cannot delete the final public list!");
-  }
+  // if (! Meteor.user()) {
+  //   return alert("Please sign in or create an account to delete lists.");
+  // }
+  //
+  // if (Meteor.user().emails[0].address != list.owner) {
+  //   return alert("You must be the owner of this list to delete this list.");
+  // }
+  //
+  // if (! list.userId && Lists.find({userId: {$exists: false}}).count() === 1) {
+  //   return alert("Sorry, you cannot delete the final public list!");
+  // }
 
   var message = "Are you sure you want to delete the list " + list.name + "?";
   if (confirm(message)) {
@@ -145,13 +164,13 @@ var deleteList = function(list) {
 };
 
 var toggleListPrivacy = function(list) {
-  if (! Meteor.user()) {
-    return alert("Please sign in or create an account to make private lists.");
-  }
-
-  if (Meteor.user().emails[0].address != list.owner) {
-    return alert("You must be the owner of this list to make it private.");
-  }
+  // if (! Meteor.user()) {
+  //   return alert("Please sign in or create an account to make private lists.");
+  // }
+  //
+  // if (Meteor.user().emails[0].address != list.owner) {
+  //   return alert("You must be the owner of this list to make it private.");
+  // }
 
 
   if (list.Privacy) {
@@ -187,17 +206,17 @@ var toggleListPrivacy = function(list) {
 
 Template.listsShow.events({
 
-  'click .js-edit-this-list':function(event,tmpl){
+  'click span.icon-edited':function(event,tmpl){
     event.preventDefault();
-    if (! Meteor.user()) {
-      return alert("Please sign in or create an account to change list titles.");
-    } else if (Meteor.user().emails[0].address !== this.owner) {
-      return alert("You must be the owner of this list to change the title of this list.");
-    } else if (Meteor.user().emails[0].address === this.owner) {
-      console.log("Hi, you're the owner!");
+    // if (! Meteor.user()) {
+    //   return alert("Please sign in or create an account to change list titles.");
+    // } else if (Meteor.user().emails[0].address !== this.owner) {
+    //   return alert("You must be the owner of this list to change the title of this list.");
+    // } else if (Meteor.user().emails[0].address === this.owner) {
+    //   console.log("Hi, you're the owner!");
       event.preventDefault();
       editList(this, tmpl);
-    }
+
   },
 
   'click .js-share-list':function(event,tmpl){
@@ -207,7 +226,6 @@ Template.listsShow.events({
     if (Meteor.user().emails[0].address !== list.owner){
       return alert("You have to be the owner to share this list!");
     } else {
-
       Session.set('sharing_list',true);
     }
   },
@@ -279,5 +297,25 @@ Template.listsShow.events({
 
   'click .js-delete-list': function(event, template) {
     deleteList(this, template);
-  }
+  },
+
+
+  'click .hideMenu': function(){
+    console.log("Clicked Left Arrow");
+    $("#content-container").css("left","0px");
+    Session.set(HIDE_MENU,true);
+  // if(Session.get(HIDE_MENU)){
+  //   $("#content-container").css("left","300px");
+  // }
+  // else{
+  //   $("#content-container").css("left","0px");
+  // }
+  },
+
+  'click .expandMenu' : function(){
+    console.log("Clicked Right Arrow");
+    $("#content-container").css("left","300px");
+    Session.set(HIDE_MENU,false);
+  },
+
 });

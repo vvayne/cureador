@@ -21,7 +21,8 @@ Template.modalForm.events({
        console.log("this was inserted");
        Todos.insert({title:title,author:author,thoughts:thoughts,src:url,height:1000,width:'25%',listId: listId, owner:owner, createdAt: createdAt});
        Lists.update(listId, {$inc: {incompleteCount: 1}});
-       Session.set('adding_interest',false);
+      //  Session.set('adding_interest',false);
+
   },
 
   'click .cancel':function(evt,tmpl){
@@ -113,7 +114,7 @@ Template.todo.events({
 });
 
 
-Template.sharelist.events({
+Template.shareModal.events({
   'click .save':function(evt,tmpl){
     // event.preventDefault();
     var shareusername = tmpl.find('.shareusername').value;
@@ -213,7 +214,7 @@ Template.modalForm.helpers({
  }
 });
 
-Template.sharelist.helpers({
+Template.shareModal.helpers({
   listOfAccessibleEmails: function() {
     var currList = "";
     console.log("Hi, sharing list");

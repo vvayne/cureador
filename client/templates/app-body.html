@@ -1,6 +1,5 @@
 <template name="appBody">
   <div id="container" class="{{menuOpen}} {{cordova}}">
-
     <section id="menu">
       {{#if currentUser}}
         <div class="btns-group-vertical">
@@ -28,6 +27,8 @@
           <a class="js-new-list link-list-new"><span class="icon-plusSign"></span>New List</a>
         {{/if}}
         {{> shareModal}}
+        {{> modalForm}}
+        {{> editForm}}
         {{#each lists}}
           {{#if Privacy}}
             {{#if accessible}}
@@ -50,6 +51,7 @@
           {{/if}}
         {{/each}}
       </div>
+
     </section>
 
     {{#unless connected}}

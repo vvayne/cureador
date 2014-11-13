@@ -5,11 +5,9 @@
 
 standard-app-packages
 insecure
-less
 iron:router
 accounts-password
-simison:bootstrap3-less
-bootstrap
-mrt:jquery-masonry
 accounts-meteor-developer
-
+nemo64:bootstrap
+less
+sjors:meteor-masonry

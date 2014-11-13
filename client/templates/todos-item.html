@@ -11,24 +11,46 @@
 </template> -->
 
 <template name= "todo">
-  <div class="item well span4 {{editingClass}}">
-    <h4 class="muted">{{title}}<span style= "font-size:16px;"> by</span> {{author}}</h4>
-    <p>{{thoughts}}</p>
-    <a target= "_new" href={{src}} style="font-size:16px; color:#40a4ff;">{{domain}}</a>
+  <div class="item well {{editingClass}}">
+    <h3 class>{{title}}</h3><span style= "font-size:16px;"> <h5>by {{author}} </h5> </span>
+    <p style="margin-left:15px">{{thoughts}}</p>
+    <a target= "_new" href={{src}} style="font-size:16px; color:#40a4ff; margin-left:15px;">{{domain}}</a>
     <div>
       {{#if isOwnerOfList}}
       {{#if notDiscover}}
-    <a class="js-edit-todo" href="#" style="font-size:12px;">Edit</a>
+    <a class="js-edit-todo" href="#" style="font-size:12px;" data-toggle="modal" data-target="#editModal">Edit</a>
+    <a class="js-delete-todo delete-todo nav-bar right" href="#" style="font-size:12px;"><span class="icon-garb"></span></a>
+    {{/if}}
+    {{/if}}
+  </div>
+</div>
+</template>
+
+
+<!-- <template name= "todo">
+  <div class="media {{editingClass}}">
+    <div class="media-body">
+    <div class="media-heading">
+    <h3 class>{{title}}</h3><span style= "font-size:16px;"> by</span> {{author}}
+    </div>
+    <p>{{thoughts}}</p>
+    <a target= "_new" href={{src}} style="font-size:16px; color:#40a4ff;">{{domain}}</a>
+  </div>
+    <div>
+      {{#if isOwnerOfList}}
+      {{#if notDiscover}}
+    <a class="js-edit-todo" href="#" style="font-size:12px;" data-toggle="modal" data-target="#editModal">Edit</a>
     <a class="js-delete-todo delete-todo nav-bar right" href="#" style="font-size:12px;"><span class="icon-garb"></span></a>
     {{/if}}
     {{/if}}
   </div>
   </div>
-</template>
+</template> -->
 
 
-<template name="modalForm">
-    <div id="example" class="modal">
+<!-- <template name="modalForm">
+    <div id="myModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-content">
     <div class="modal-header">
     <a class="close" data-dismiss="modal">x</a>
     <h3>Add Content</h3>
@@ -37,51 +59,85 @@
       <input class="title" type="text" name="title" value="" id="title" placeholder="Title">
       <input class="author" type="text" name="author" value="" id="author" placeholder="Author">
       <textarea class="thoughts" name="thoughts" placeholder= "thoughts" value="" rows="8" cols="40"></textarea>
-       <!-- What is used to put in handlebars? -->
       <input class="src" type="text" name="url" value="" id="url" placeholder="Url">
     </div>
     <div class= "modal-footer">
       <a href="#" class="btn btn-success save">Save</a>
-      <a href="#" class="btn cancel" data-dismiss="modal">Cancel</a>
+      <a href="#" class="btn cancel" data-dismiss="modal">Close</a>
     </div>
   </div>
-</template>
+</div>
+</template> -->
 
-<template name="editForm">
-  <div id="edit" class="modal">
-  <div class="modal-header">
-  <a class="close" data-dismiss="modal">x</a>
-  <h3>Edit Content</h3>
-  </div>
-  <div class="modal-body">
-    <input class="title" type="text" name="title" value= "{{title}}" placeholder="Title">
-    <input class="author" type="text" name="author" value= "{{author}}" placeholder="Author" >
-    <textarea class="thoughts" name="thoughts" value= "{{thoughts}}" placeholder= "Thoughts" rows="8" cols="40"></textarea>
-    <input class="src" type="text" name="url" value= "{{src}}" placeholder="Url">
-  </div>
-  <div class= "modal-footer">
-    <a href="#" class="btn btn-success save">Save</a>
-    <a href="#" class="btn cancel" data-dismiss="modal">Cancel</a>
+
+<template name="modalForm">
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <button type="button" class="close" data-dismiss="modal"><span aria-hidden="false">&times;</span><span class="sr-only">Close</span></button> -->
+        <h4 class="modal-title" id="myModalLabel">Add Content</h4>
+      </div>
+      <div class="modal-body">
+        <input class="title form-control input-sm" type="text" name="title" value="" id="title" placeholder="Title">
+        <input class="author form-control input-sm" type="text" name="author" value="" id="author" placeholder="Author">
+        <textarea class="thoughts form-control" name="thoughts" placeholder= "Thoughts" value="" rows="8" cols="40"></textarea>
+        <input class="src form-control" type="text" name="url" value="" id="url" placeholder="Url">
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn save" data-dismiss="modal">Add</a>
+        <a href="#" class="btn cancel" data-dismiss="modal">Close</a>
+
+      </div>
+    </div>
   </div>
 </div>
 </template>
 
-<template name="sharelist">
-  <div id="example" class="modal">
+<template name="editForm">
+  <div id="editModal" class="modal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
   <div class="modal-header">
-  <a class="close" data-dismiss="modal">x</a>
+  <!-- <a class="close" data-dismiss="modal">x</a> -->
+  <h3>Edit Content</h3>
+  </div>
+  <div class="modal-body">
+    <input class="title form-control" type="text" name="title" value= "{{title}}" placeholder="Title">
+    <input class="author form-control" type="text" name="author" value= "{{author}}" placeholder="Author" >
+    <textarea class="thoughts form-control" name="thoughts" value= "{{thoughts}}" placeholder= "Thoughts" rows="8" cols="40"></textarea>
+    <input class="src form-control" type="text" name="url" value= "{{src}}" placeholder="Url">
+  </div>
+  <div class= "modal-footer">
+    <a href="#" class="btn save" data-dismiss="modal">Save</a>
+    <a href="#" class="btn cancel" data-dismiss="modal">Cancel</a>
+  </div>
+</div>
+</div>
+
+</div>
+</template>
+
+<template name="shareModal">
+  <div id="shareList" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  <div class="modal-header">
+  <!-- <a class="close" data-dismiss="modal">x</a> -->
   <h3>Share List</h3>
   </div>
   <div class="modal-body">
     <div class="modal-body" style="padding-right:0px;">The people who can see this list (if it were private) are: <span style="font-size:12px; color:gray;">{{listOfAccessibleEmails}}</span></div>
     <div class="modal-body" style="padding-right:0px;">
     <label for="shareusername">Who do you want to share this list with? <span style="font-size: 12px;color:gray;">To stop sharing a list with someone, simply input their email below.</span></label>
-    <input class="shareusername" type="text" name="shareusername" value="" id="shareusername" placeholder="example@gmail.com">
+    <input class="shareusername form-control" type="text" name="shareusername" value="" id="shareusername" placeholder="example@gmail.com">
     </div>
   </div>
   <div class= "modal-footer">
-    <a href="#" class="btn btn-success save">Okay!</a>
-    <a href="#" class="btn cancel" data-dismiss="modal">Cancel</a>
+    <a href="#" class="btn save">Okay</a>
+    <a href="#" class="btn cancel" data-dismiss="modal">Close</a>
   </div>
+</div>
+</div>
 </div>
 </template>
