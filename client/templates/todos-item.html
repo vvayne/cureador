@@ -11,6 +11,7 @@
 </template> -->
 
 <template name= "todo">
+  {{#if hasUrl}}
   <a target= "_new" href={{src}} style="font-size:14px; color:#40a4ff; margin-left:14px; ">
   <div class="item well col-md-4 {{editingClass}}">
     <span style= "font-size:16px;"> {{title}}<h5>by {{author}} </h5> </span>
@@ -26,6 +27,21 @@
   </div>
 </div>
 </a>
+{{else}}
+  <div class="item well col-md-4 {{editingClass}}">
+    <span style= "font-size:16px;"> {{title}}<h5>by {{author}} </h5> </span>
+    <p style="margin-left:12px; font-size:12px">{{thoughts}}</p>
+    <!-- <a target= "_new" href={{src}} style="font-size:14px; color:#40a4ff; margin-left:14px;">{{domain}}</a> -->
+    <div>
+      {{#if isOwnerOfList}}
+      {{#if notDiscover}}
+    <a class="js-edit-todo" href="#" style="font-size:12px;" data-toggle="modal" data-target="#editModal">Edit</a>
+    <a class="js-delete-todo delete-todo nav-bar right" href="#" style="font-size:12px;"><span class="icon-garb"></span></a>
+      {{/if}}
+      {{/if}}
+    </div>
+  </div>
+{{/if}}
 </template>
 
 

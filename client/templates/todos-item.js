@@ -70,6 +70,7 @@ Template.editForm.events({
 });
 
 Template.editForm.helpers({
+
   title : function(){
     var thisId = Session.get(EDITING_KEY);
     //console.log("thisId"+thisId); Why does this keep going even though not editing form? nov 8
@@ -179,6 +180,13 @@ Template.shareModal.events({
 
 
 Template.todo.helpers({
+
+  hasUrl :function(){
+    if(Todos.findOne(this._id).src === "") return false;
+    else{
+      return true;
+    }
+  },
 
   notDiscover: function(){
     if(Lists.findOne(this.listId).name === "Discover") return false;
