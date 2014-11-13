@@ -42,8 +42,6 @@ Template.listsShow.rendered = function() {
 Template.listsShow.helpers({
 
   isOwnerOfListCompareName : function(){
-    console.log("Meteor.userId:"+ Meteor.userId());
-    console.log("this.owner:"+ this.owner);
 
     if(Meteor.user().emails[0].address === this.owner){
       return true;
@@ -55,12 +53,10 @@ Template.listsShow.helpers({
 
   adding_interest : function() {
     return Session.get('adding_interest');
-    console.log("This goes through");
    },
 
    editingItem: function(){
      return Session.get(editingItem);
-     console.log(editingItem);
    },
 
   editing: function() {
@@ -72,15 +68,15 @@ Template.listsShow.helpers({
   },
 
   todos: function() {
-    console.log("we are in todos");
-    console.log(Todos.find({listId: this._id}, {sort: {createdAt : -1}}));
+    // console.log("we are in todos");
+    // console.log(Todos.find({listId: this._id}, {sort: {createdAt : -1}}));
     return Todos.find({listId: this._id}, {sort: {createdAt : -1}});
   },
 
   ownerLocalPart: function() {
     var email = this.owner;
-    console.log("we're figuring out the owner of this list and getting their name");
-    console.log(this.owner);
+    // console.log("we're figuring out the owner of this list and getting their name");
+    // console.log(this.owner);
     if (this.owner !== null) {
       return email.substring(0, email.indexOf('@'));
     } else {
@@ -96,30 +92,38 @@ Template.listsShow.helpers({
 
 var editList = function(list, template) {
   Session.set(EDITING_KEY, true);
-
+  console.log("starts editing");
   // force the template to redraw based on the reactive change
   Tracker.flush();
   template.$('.js-edit-form input[type=text]').focus();
 };
 
 var saveList = function(list, template) {
-  Session.set(EDITING_KEY, false);
-  console.log(template.$('[name=name]').val() === "");
-  if (template.$('[name=name]').val() === "" || template.$('[name=name]').val() === "Discover") {
+  var newName = template.$('[name=name]').val();
+  var discoverListId = Lists.findOne({name: "Discover"})._id;
+  console.log("discoverListId:"+discoverListId);
+  if (newName === "" || newName === "Discover") {
     Lists.update(list._id, {$set: {name: "Untitled"}});
   } else {
-    Lists.update(list._id, {$set: {name: template.$('[name=name]').val()}});
+    Lists.update(list._id, {$set: {name: newName}});
   }
+  
 
-  //started the code for editing the names in the Discover list as well
   // if (!list.Privacy) {
-  //   // var title = list.name;
-  //   var url= "/lists/" + list._id; //does this work lol
-  //   var listId = Lists.findOne({name: "Discover"})._id; //hopefully this works........
-  //   Meteor.subscribe('todos', Lists.findOne({name: "Discover"})._id);
-  //   var found = Todos.findOne({src:url});
-  //   Todos.update(found._id, {title: list.name});
+  //     var title = list.name;
+  //     var url= "/lists/" + list._id; //does this work lol
+  //        //hopefully this works........
+  //     var sub = Meteor.subscribe('todos', Lists.findOne({name: "Discover"})._id);
+  //     console.log("subscription:"+sub);
+  //     console.log("url:" +url);
+  //     console.log("title:" +title);
+  //     console.log(Todos.find().fetch());
+  //     var found = Todos.findOne({src:url})._id;
+  //     console.log("found:"+found);
+  //     Todos.update(found, {title: list.name});
   // }
+
+  Session.set(EDITING_KEY, false);
 
 };
 
@@ -191,9 +195,9 @@ var toggleListPrivacy = function(list) {
 
   } else {
     // ensure the last public list cannot be made private
-    if (Lists.find({Privacy: false}).count() === 1) {
-      return alert("Sorry, you can't make the final public list private!");
-    }
+    // if (Lists.find({Privacy: false}).count() === 1) {
+    //   return alert("Sorry, you can't make the final public list private!");
+    // }
     var link = "/lists/" + list._id;
     Meteor.subscribe('todos', Lists.findOne({name: "Discover"})._id);
     var found = Todos.findOne({src:link});
@@ -207,7 +211,6 @@ var toggleListPrivacy = function(list) {
 Template.listsShow.events({
 
   'click span.icon-edited':function(event,tmpl){
-    event.preventDefault();
     // if (! Meteor.user()) {
     //   return alert("Please sign in or create an account to change list titles.");
     // } else if (Meteor.user().emails[0].address !== this.owner) {
@@ -216,6 +219,7 @@ Template.listsShow.events({
     //   console.log("Hi, you're the owner!");
       event.preventDefault();
       editList(this, tmpl);
+      console.log("Done with Editing Title");
 
   },
 

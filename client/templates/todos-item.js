@@ -18,13 +18,12 @@ Template.modalForm.events({
     var owner = Meteor.userId();
     var createdAt = new Date();
 
-       console.log("this was inserted");
        Todos.insert({title:title,author:author,thoughts:thoughts,src:url,height:1000,width:'25%',listId: listId, owner:owner, createdAt: createdAt});
        Lists.update(listId, {$inc: {incompleteCount: 1}});
        $('.thoughts' ).val("");
        $('.author').val("");
        $('.title').val("");
-       $('.src.').val("");
+       $('.src').val("");
 
 
       //  Session.set('adding_interest',false);
@@ -147,7 +146,6 @@ Template.shareModal.events({
         if (arr !== null) {
           for (var i = 0; i < arr.length; i++) {
               if (arr[i] === shareusername) {
-                console.log("trying to delete something");
                 Lists.update({_id: listId},{$pull: {access: shareusername}});
                 foundIt = true;
                 // Router.go('home');
@@ -183,14 +181,12 @@ Template.shareModal.events({
 Template.todo.helpers({
 
   notDiscover: function(){
-    console.log(Lists.findOne(this.listId).name);
     if(Lists.findOne(this.listId).name === "Discover") return false;
     else{ return true;}
   },
 
   isOwnerOfList : function(){
-    console.log("Meteor.userId:"+ Meteor.userId());
-    console.log("this.owner:"+ this.owner);
+
     if(Meteor.userId() === this.owner){
       return true;
     }
@@ -205,9 +201,7 @@ Template.todo.helpers({
 
 domain: function() {
   var a = document.createElement('a');
-  console.log("1"+a);
   a.href = this.src;
-  console.log(a.hostname);
   return a.hostname;
 },
 
@@ -215,7 +209,6 @@ domain: function() {
 
 Template.modalForm.helpers({
   adding_interest : function() {
-     console.log("does this happen");
      return Session.get('adding_interest');
  }
 });
@@ -223,10 +216,9 @@ Template.modalForm.helpers({
 Template.shareModal.helpers({
   listOfAccessibleEmails: function() {
     var currList = "";
-    console.log("Hi, sharing list");
-    console.log(this);
+
     var arr = this.access;
-    console.log(arr);
+
     if (arr !== null) {
       for (var i = 0; i < arr.length; i++) {
         currList += arr[i];

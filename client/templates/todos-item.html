@@ -11,10 +11,11 @@
 </template> -->
 
 <template name= "todo">
-  <div class="item well {{editingClass}}">
-    <h3 class>{{title}}</h3><span style= "font-size:16px;"> <h5>by {{author}} </h5> </span>
-    <p style="margin-left:15px">{{thoughts}}</p>
-    <a target= "_new" href={{src}} style="font-size:16px; color:#40a4ff; margin-left:15px;">{{domain}}</a>
+  <a target= "_new" href={{src}} style="font-size:14px; color:#40a4ff; margin-left:14px; ">
+  <div class="item well col-md-4 {{editingClass}}">
+    <span style= "font-size:16px;"> {{title}}<h5>by {{author}} </h5> </span>
+    <p style="margin-left:12px; font-size:12px">{{thoughts}}</p>
+    <!-- <a target= "_new" href={{src}} style="font-size:14px; color:#40a4ff; margin-left:14px;">{{domain}}</a> -->
     <div>
       {{#if isOwnerOfList}}
       {{#if notDiscover}}
@@ -24,6 +25,7 @@
     {{/if}}
   </div>
 </div>
+</a>
 </template>
 
 
@@ -127,7 +129,7 @@
   <h3>Share List</h3>
   </div>
   <div class="modal-body">
-    <div class="modal-body" style="padding-right:0px;">The people who can see this list (if it were private) are: <span style="font-size:12px; color:gray;">{{listOfAccessibleEmails}}</span></div>
+    <!-- <div class="modal-body" style="padding-right:0px;">The people who can see this list (if it were private) are: <span style="font-size:12px; color:gray;">{{listOfAccessibleEmails}}</span></div> -->
     <div class="modal-body" style="padding-right:0px;">
     <label for="shareusername">Who do you want to share this list with? <span style="font-size: 12px;color:gray;">To stop sharing a list with someone, simply input their email below.</span></label>
     <input class="shareusername form-control" type="text" name="shareusername" value="" id="shareusername" placeholder="example@gmail.com">
