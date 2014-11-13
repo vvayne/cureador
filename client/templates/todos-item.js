@@ -21,6 +21,12 @@ Template.modalForm.events({
        console.log("this was inserted");
        Todos.insert({title:title,author:author,thoughts:thoughts,src:url,height:1000,width:'25%',listId: listId, owner:owner, createdAt: createdAt});
        Lists.update(listId, {$inc: {incompleteCount: 1}});
+       $('.thoughts' ).val("");
+       $('.author').val("");
+       $('.title').val("");
+       $('.src.').val("");
+
+
       //  Session.set('adding_interest',false);
 
   },
