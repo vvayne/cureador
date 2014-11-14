@@ -1,9 +1,16 @@
 
 a .item{
 	float:left;
-	margin-bottom:15px;
 	clear: right;
 	&:hover { color: darken(@color-primary, 10%); }
+}
+
+.well{
+	margin: 15px 5px 15px 25px;
+}
+
+.col-md-4{
+	width:30%;
 }
 
 .list-todos .list-todo{
@@ -11,8 +18,9 @@ a .item{
 }
 
 .toggleExpand{
-  position: relative;
+  position: absolute;
   margin-top: 700px;
+	font-size: 10px;
 }
 
 .list-items .list-item {
