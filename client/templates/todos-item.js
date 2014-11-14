@@ -5,6 +5,42 @@ var editingItem = 'edtItm';
 Session.setDefault(EDITING_KEY,null);
 Session.setDefault(editingItem,false);
 
+Template.todo.rendered = function(){
+
+  setTimeout(function(){
+    masonize(function(){
+
+    })
+  },1000);
+}
+
+// function insertElement (node, next) {
+//   $(node)
+//     .hide()
+//     .insertBefore(next)
+//     .fadeIn();
+// }
+//
+// function removeElement (node) {
+//   $(node).fadeOut(function() {
+//     this.remove();
+//   });
+// }
+
+function masonize(callback){
+  var container = $('#mainContent');
+  container.masonry({
+    itemSelector: '.item',
+    // gutter:10,
+    // "isFitWidth": true,
+    // "columnWidth": 500,
+  })
+
+  var msnry = container.data('masonry');
+  console.log(msnry);
+  if(callback){callback()};
+}
+
 Template.modalForm.events({
 // Why doesn't this thing work for this._id? Got the edit function to work.
   'click .save':function(evt,tmpl){
@@ -25,7 +61,8 @@ Template.modalForm.events({
        $('.title').val("");
        $('.src').val("");
 
-
+    // $('#mainContent').masonry( 'addItems', tmpl )
+    $("#mainContent").masonry('reloadItems');
       //  Session.set('adding_interest',false);
 
   },

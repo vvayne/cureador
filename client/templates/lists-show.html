@@ -50,10 +50,12 @@
       </form> -->
     </nav>
 
-    <div class="content-scrollable list-todos js-masonry" id="theContainer" data-masonry-options='{ "columnWidth": 200, "itemSelector": ".item" }'>
+    <div class="content-scrollable list-todos">
+      <div id="mainContent">
       {{#if todosReady}}
         {{#each todos}}
           {{> todo}}
+
         {{else}}
           <div class="wrapper-message">
             <div class="title-message">No articles yet</div>
@@ -74,6 +76,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <!-- <template name="shareModal">
