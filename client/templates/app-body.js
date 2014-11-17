@@ -68,9 +68,15 @@ Template.appBody.helpers({
   cordova: function() {
     return Meteor.isCordova && 'cordova';
   },
-  emailLocalPart: function() {
-    var email = Meteor.user().emails[0].address;
-    return email.substring(0, email.indexOf('@'));
+  emailLocalPartOrUserName: function() {
+    // console.log("userProfile: "+ Meteor.user().profile);
+    if( Meteor.user().profile === undefined){
+      var email = Meteor.user().emails[0].address;
+      return email.substring(0, email.indexOf('@'));
+  }
+    else{
+      return Meteor.user().profile.name;
+    }
   },
   userMenuOpen: function() {
     return Session.get(USER_MENU_KEY);
@@ -80,8 +86,15 @@ Template.appBody.helpers({
   },
 
   accessible: function() {
-    var user = Meteor.user().emails[0].address;
+    var user;
+    if(Meteor.user().emails !== undefined){
+      user = Meteor.user().emails[0].address;
+    }
+    else{
+      user = Meteor.user().profile.name;
+    }
     var arr = this.access;
+    console.log("arr for access: "+arr);
     if (arr !== null) {
       for (var i = 0; i < arr.length; i++) {
           if (arr[i] === user) {
@@ -95,7 +108,11 @@ Template.appBody.helpers({
   publicAccessible: function() {
     if (this.name === "Discover") {
       return this.name === "Discover";
-    } else if (this.owner === Meteor.user().emails[0].address && !this.Privacy) {
+    }
+    else if (Meteor.user().profile != undefined){
+        return true;
+    }
+    else if (this.owner === Meteor.user().emails[0].address && !this.Privacy) {
       return true;
     }
 
@@ -168,9 +185,16 @@ Template.appBody.events({
       return alert("Please sign in or create an account to make lists.");
     }
     var CreatedAt = new Date();
+    var accessName = "";
+    if(Meteor.user().emails !== undefined){
+      accessName = Meteor.user().emails[0].address;
+    }
+    else{
+      accessName = Meteor.user().profile.name;
+    }
+      // var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[Meteor.user().emails[0].address], owner: Meteor.user().emails[0].address, createdAt: CreatedAt, DiscoverList: false};
+      var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[accessName], owner: accessName, createdAt: CreatedAt, DiscoverList: false};
 
-   var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[Meteor.user().emails[0].address], owner: Meteor.user().emails[0].address, createdAt: CreatedAt, DiscoverList: false};
-    console.log(list);
     list._id = Lists.insert(list);
     console.log(list);
 

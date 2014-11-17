@@ -11,3 +11,7 @@ accounts-meteor-developer
 nemo64:bootstrap
 less
 sjors:meteor-masonry
+accounts-ui
+accounts-twitter
+accounts-facebook
+

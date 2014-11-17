@@ -31,6 +31,7 @@ function masonize(callback){
   var container = $('#mainContent');
   container.masonry({
     itemSelector: '.item',
+    transitionDuration:'0.6s',
     // gutter:10,
     // "isFitWidth": true,
     // "columnWidth": 500,
@@ -93,6 +94,8 @@ Template.editForm.events({
       Session.set(EDITING_KEY,null);
       Session.set(editingItem,false);
       console.log("EXITING editForm");
+      $("#mainContent").masonry('reloadItems');
+
 
   },
 

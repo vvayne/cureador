@@ -43,7 +43,10 @@ Template.listsShow.helpers({
 
   isOwnerOfListCompareName : function(){
 
-    if(Meteor.user().emails[0].address === this.owner){
+    if(Meteor.user().emails !== undefined && Meteor.user().emails[0].address === this.owner){
+      return true;
+    }
+    else if (Meteor.user().profile.name === this.owner){
       return true;
     }
     else{
@@ -75,13 +78,12 @@ Template.listsShow.helpers({
 
   ownerLocalPart: function() {
     var email = this.owner;
-    // console.log("we're figuring out the owner of this list and getting their name");
-    // console.log(this.owner);
-    if (this.owner !== null) {
-      return email.substring(0, email.indexOf('@'));
-    } else {
-      return null;
-    }
+    return this.owner;
+    // if (this.owner !== null) {
+    //   return email.substring(0, email.indexOf('@'));
+    // } else {
+    //   return null;
+    // }
 
   },
 
@@ -107,7 +109,7 @@ var saveList = function(list, template) {
   } else {
     Lists.update(list._id, {$set: {name: newName}});
   }
-  
+
 
   // if (!list.Privacy) {
   //     var title = list.name;
