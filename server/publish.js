@@ -4,19 +4,15 @@ Meteor.publish('publicLists', function() {
 });
 
 Meteor.publish('privateLists', function() {
-
-  if (this.userId) {
-
-	var user = Meteor.users.findOne(this.userId);
-  if(user.emails != undefined){
-    return Lists.find({access: {$exists: user.emails[0].address}});
-    console.log("emails publish");
-  }
-  else if(user.profile){
-    Lists.find({access: {$exists: user.profile.name}});
+  console.log("hiya we're looking for private things");
+  // console.log(this);
+  console.log("aayyyy" + this.userId);
+   if (this.userId) {
+    var user = Meteor.users.findOne(this.userId);
+    Lists.find({access: {$exists: user.profile.email}}); //PERHAPS BUGGY..........
     console.log("profile publish");
 
-  }
+  // }
     // return Lists.find({access: {$exists: user.emails[0].address}});
   } else {
     this.ready();

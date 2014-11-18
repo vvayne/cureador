@@ -180,7 +180,7 @@ Template.shareModal.events({
     // if (actualUser === undefined) {
     //   return alert("You must input an actual user!");
     // }
-    if (Meteor.user().emails[0].address === list.owner) {
+    if (Meteor.user().profile.email === list.owner) {
       if (shareusername !== list.owner) {
         var arr = list.access;
         var foundIt = false;
@@ -235,7 +235,7 @@ Template.todo.helpers({
 
   isOwnerOfList : function(){
 
-    if(Meteor.userId() === this.owner){
+    if(Meteor.user().profile.email === this.owner){
       return true;
     }
     else{

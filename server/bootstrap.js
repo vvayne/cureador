@@ -4,7 +4,7 @@
 Meteor.startup(function () {
 	if (Lists.find().count() === 0) {
       var CreatedAt = new Date();
-      Lists.insert({name: "Discover", incompleteCount: 0, Privacy: false, owner: "CureadorTeam@gmail.com", DiscoverList: true, createdAt: CreatedAt});
+      Lists.insert({name: "Discover", incompleteCount: 0, Privacy: false, owner: "CureadorTeam@gmail.com", ownerName: "Cureador Team", DiscoverList: true, createdAt: CreatedAt});
 	}
 });
 // Meteor.startup(function () {

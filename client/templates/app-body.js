@@ -70,13 +70,13 @@ Template.appBody.helpers({
   },
   emailLocalPartOrUserName: function() {
     // console.log("userProfile: "+ Meteor.user().profile);
-    if( Meteor.user().profile === undefined){
-      var email = Meteor.user().emails[0].address;
-      return email.substring(0, email.indexOf('@'));
-  }
-    else{
+  //   if( Meteor.user().profile === undefined){
+  //     var email = Meteor.user().emails[0].address;
+  //     return email.substring(0, email.indexOf('@'));
+  // }
+  //   else{
       return Meteor.user().profile.name;
-    }
+    // }
   },
   userMenuOpen: function() {
     return Session.get(USER_MENU_KEY);
@@ -86,13 +86,8 @@ Template.appBody.helpers({
   },
 
   accessible: function() {
-    var user;
-    if(Meteor.user().emails !== undefined){
-      user = Meteor.user().emails[0].address;
-    }
-    else{
-      user = Meteor.user().profile.name;
-    }
+    console.log("why do I hit this so often......");
+    var user = Meteor.user().profile.email;
     var arr = this.access;
     console.log("arr for access: "+arr);
     if (arr !== null) {
@@ -108,11 +103,7 @@ Template.appBody.helpers({
   publicAccessible: function() {
     if (this.name === "Discover") {
       return this.name === "Discover";
-    }
-    else if (Meteor.user().profile != undefined){
-        return true;
-    }
-    else if (this.owner === Meteor.user().emails[0].address && !this.Privacy) {
+    } else if (this.owner === Meteor.user().profile.email) {
       return true;
     }
 
@@ -146,7 +137,35 @@ Template.appBody.events({
   //
   // },
 
+  'click #signingin': function() {
 
+    Meteor.loginWithGoogle({
+      requestPermissions: ['email', 'profile']
+    }, function (err) {
+      if (err)
+        Session.set('errorMessage', err.reason || 'Unknown error');
+    });
+    Accounts.createUser({ //THIS DOESN'T WORK probs cuz I didn't add a password
+    }, function(error) {
+      Router.go('home');
+    });
+    console.log("did we create a user?");
+  },
+
+  // 'click #joining': function() {
+  //   Meteor.loginWithGoogle({
+  //     requestPermissions: ['email', 'profile']
+  //   }, function (err) {
+  //     if (err)
+  //       Session.set('errorMessage', err.reason || 'Unknown error');
+  //   });
+  //   Accounts.createUser({ //THIS DOESN'T WORK probs cuz I didn't add a password
+  //     password: "password"
+  //   }, function(error) {
+  //     Router.go('home');
+  //   });
+  //   console.log("hiya making an account yo");
+  // },
 
   'click .js-menu': function() {
     Session.set(MENU_KEY, ! Session.get(MENU_KEY));
@@ -173,7 +192,6 @@ Template.appBody.events({
     // if we are on a private list, we'll need to go to a public one
     var current = Router.current();
     console.log("Hi, we're logging out!");
-    console.log(current.data().userId);
     if (current.route.name === 'listsShow') {
       console.log("We are in the logout function");
       Router.go('home'); //I think this works.
@@ -181,22 +199,18 @@ Template.appBody.events({
   },
 
   'click .js-new-list': function() {
-     if (! Meteor.user()) {
+     if (!Meteor.user()) {
       return alert("Please sign in or create an account to make lists.");
     }
+    console.log("hi");
     var CreatedAt = new Date();
-    var accessName = "";
-    if(Meteor.user().emails !== undefined){
-      accessName = Meteor.user().emails[0].address;
-    }
-    else{
-      accessName = Meteor.user().profile.name;
-    }
+    var email = Meteor.user().profile.email;
       // var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[Meteor.user().emails[0].address], owner: Meteor.user().emails[0].address, createdAt: CreatedAt, DiscoverList: false};
-      var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[accessName], owner: accessName, createdAt: CreatedAt, DiscoverList: false};
+    var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[email], owner: email, ownerName: Meteor.user().profile.name, createdAt: CreatedAt, DiscoverList: false};
 
     list._id = Lists.insert(list);
-    console.log(list);
+    console.log(Lists.find().fetch());
+    console.log("hi again");
 
     Router.go('listsShow', list);
   }

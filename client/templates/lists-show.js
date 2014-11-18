@@ -43,10 +43,10 @@ Template.listsShow.helpers({
 
   isOwnerOfListCompareName : function(){
 
-    if(Meteor.user().emails !== undefined && Meteor.user().emails[0].address === this.owner){
+    if(Meteor.user().profile.email !== undefined && Meteor.user().profile.email === this.owner){
       return true;
     }
-    else if (Meteor.user().profile.name === this.owner){
+    else if (Meteor.user().profile.email === this.owner){
       return true;
     }
     else{
@@ -76,9 +76,8 @@ Template.listsShow.helpers({
     return Todos.find({listId: this._id}, {sort: {createdAt : -1}});
   },
 
-  ownerLocalPart: function() {
-    var email = this.owner;
-    return this.owner;
+  ownerLocalPart: function() { //May mess something up lols
+    return this.ownerName;
     // if (this.owner !== null) {
     //   return email.substring(0, email.indexOf('@'));
     // } else {
@@ -142,7 +141,7 @@ var deleteList = function(list) {
   // if (! list.userId && Lists.find({userId: {$exists: false}}).count() === 1) {
   //   return alert("Sorry, you cannot delete the final public list!");
   // }
-
+  console.log("Hi, we're deleting a list!!!!!!!!!");
   var message = "Are you sure you want to delete the list " + list.name + "?";
   if (confirm(message)) {
     // we must remove each item individually from the client
@@ -229,7 +228,7 @@ Template.listsShow.events({
     var listId = Router.current().params._id;
     var list = Lists.findOne(listId);
     event.preventDefault();
-    if (Meteor.user().emails[0].address !== list.owner){
+    if (Meteor.user().profile.email !== list.owner){
       return alert("You have to be the owner to share this list!");
     } else {
       Session.set('sharing_list',true);
@@ -241,9 +240,9 @@ Template.listsShow.events({
 
     if (! Meteor.user()) {
       return alert("Please sign in or create an account to add items to a list.");
-    } else if (Meteor.user().emails[0].address != this.owner) {
+    } else if (Meteor.user().profile.email != this.owner) {
       return alert("You must be the owner of this list to add items to the list.");
-    } else if (Meteor.user().emails[0].address == this.owner) {
+    } else if (Meteor.user().profile.email == this.owner) {
       console.log("Adding a list item");
       event.preventDefault();
       Session.set('adding_interest',true);
