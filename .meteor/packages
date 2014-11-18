@@ -14,4 +14,5 @@ sjors:meteor-masonry
 accounts-ui
 accounts-twitter
 accounts-facebook
+accounts-google
 
