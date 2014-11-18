@@ -1,3 +1,5 @@
+var CurrentUserEmail = Meteor.user().services.google.email; //don't know if I have to put this twice
+
 var EDITING_KEY = 'editingList';
 var editingItem = 'edtItm';
 
@@ -43,10 +45,10 @@ Template.listsShow.helpers({
 
   isOwnerOfListCompareName : function(){
 
-    if(Meteor.user().profile.email !== undefined && Meteor.user().profile.email === this.owner){
+    if(CurrentUserEmail !== undefined && CurrentUserEmail === this.owner){ // is this necessary?
       return true;
     }
-    else if (Meteor.user().profile.email === this.owner){
+    else if (CurrentUserEmail === this.owner){
       return true;
     }
     else{
@@ -76,15 +78,15 @@ Template.listsShow.helpers({
     return Todos.find({listId: this._id}, {sort: {createdAt : -1}});
   },
 
-  ownerLocalPart: function() { //May mess something up lols
-    return this.ownerName;
-    // if (this.owner !== null) {
-    //   return email.substring(0, email.indexOf('@'));
-    // } else {
-    //   return null;
-    // }
+  // ownerLocalPart: function() { //May mess something up lols
+  //   return this.ownerName;
+  //   // if (this.owner !== null) {
+  //   //   return email.substring(0, email.indexOf('@'));
+  //   // } else {
+  //   //   return null;
+  //   // }
 
-  },
+  // },
 
   isMenuHidden: function(){
     return Session.get(HIDE_MENU);
@@ -180,10 +182,9 @@ var toggleListPrivacy = function(list) {
 
   if (list.Privacy) {
     Lists.update(list._id, {$set: {Privacy: false}});
-    var auth = list.owner;
+    var author = list.ownerName;
 
     var thoughts = "";
-    var author = auth.substring(0, auth.indexOf('@'));
     var title = list.name;
     var url= "/lists/" + list._id; //does this work lol
     var listId = Lists.findOne({name: "Discover"})._id; //hopefully this works........
@@ -228,7 +229,7 @@ Template.listsShow.events({
     var listId = Router.current().params._id;
     var list = Lists.findOne(listId);
     event.preventDefault();
-    if (Meteor.user().profile.email !== list.owner){
+    if (CurrentUserEmail !== list.owner){
       return alert("You have to be the owner to share this list!");
     } else {
       Session.set('sharing_list',true);
@@ -240,9 +241,9 @@ Template.listsShow.events({
 
     if (! Meteor.user()) {
       return alert("Please sign in or create an account to add items to a list.");
-    } else if (Meteor.user().profile.email != this.owner) {
+    } else if (CurrentUserEmail !== this.owner) {
       return alert("You must be the owner of this list to add items to the list.");
-    } else if (Meteor.user().profile.email == this.owner) {
+    } else if (CurrentUserEmail === this.owner) {
       console.log("Adding a list item");
       event.preventDefault();
       Session.set('adding_interest',true);

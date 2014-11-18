@@ -180,7 +180,7 @@ Template.shareModal.events({
     // if (actualUser === undefined) {
     //   return alert("You must input an actual user!");
     // }
-    if (Meteor.user().profile.email === list.owner) {
+    if (CurrentUserEmail === list.owner) {
       if (shareusername !== list.owner) {
         var arr = list.access;
         var foundIt = false;

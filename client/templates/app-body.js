@@ -1,6 +1,8 @@
 // var adding_interest = 'adding_interest';
 // Session.setDefault(adding_interest,false);
 
+var CurrentUserEmail = Meteor.user().services.google.email;
+
 var MENU_KEY = 'menuOpen';
 Session.setDefault(MENU_KEY, false);
 
@@ -86,13 +88,11 @@ Template.appBody.helpers({
   },
 
   accessible: function() {
-    console.log("why do I hit this so often......");
-    var user = Meteor.user().profile.email;
     var arr = this.access;
     console.log("arr for access: "+arr);
     if (arr !== null) {
       for (var i = 0; i < arr.length; i++) {
-          if (arr[i] === user) {
+          if (arr[i] === CurrentUserEmail) {
               return true;
           }
       }
@@ -103,9 +103,10 @@ Template.appBody.helpers({
   publicAccessible: function() {
     if (this.name === "Discover") {
       return this.name === "Discover";
-    } else if (this.owner === Meteor.user().profile.email) {
+    } else if (this.owner === CurrentUserEmail) {
       return true;
     }
+    return false;
 
   },
 
@@ -138,7 +139,7 @@ Template.appBody.events({
   // },
 
   'click #signingin': function() {
-
+    console.log("trna login");
     Meteor.loginWithGoogle({
       requestPermissions: ['email', 'profile']
     }, function (err) {
@@ -204,9 +205,8 @@ Template.appBody.events({
     }
     console.log("hi");
     var CreatedAt = new Date();
-    var email = Meteor.user().profile.email;
       // var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[Meteor.user().emails[0].address], owner: Meteor.user().emails[0].address, createdAt: CreatedAt, DiscoverList: false};
-    var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[email], owner: email, ownerName: Meteor.user().profile.name, createdAt: CreatedAt, DiscoverList: false};
+    var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[CurrentUserEmail], owner: CurrentUserEmail, ownerName: Meteor.user().services.google.name, createdAt: CreatedAt, DiscoverList: false};
 
     list._id = Lists.insert(list);
     console.log(Lists.find().fetch());

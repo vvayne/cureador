@@ -32,24 +32,26 @@
         {{> modalForm}}
         {{> editForm}}
         {{#each lists}}
-          {{#if Privacy}} 
-            {{#if accessible}}
+          {{#if currentUser}}
+            {{#if Privacy}} 
+              {{#if accessible}}
+                <a href="{{pathFor 'listsShow'}}" class="list-todo {{activeListClass}}" title="{{name}}">
+                    <span class="icon-locked"></span>
+                  {{#if incompleteCount}}
+                    <span class="count-list">{{incompleteCount}}</span>
+                  {{/if}}
+                  {{name}}
+                </a>
+              {{/if}}
+            {{/if}}
+            {{#if publicAccessible}}
               <a href="{{pathFor 'listsShow'}}" class="list-todo {{activeListClass}}" title="{{name}}">
-                  <span class="icon-locked"></span>
                 {{#if incompleteCount}}
                   <span class="count-list">{{incompleteCount}}</span>
                 {{/if}}
                 {{name}}
               </a>
             {{/if}}
-          {{/if}}
-          {{#if publicAccessible}}
-            <a href="{{pathFor 'listsShow'}}" class="list-todo {{activeListClass}}" title="{{name}}">
-              {{#if incompleteCount}}
-                <span class="count-list">{{incompleteCount}}</span>
-              {{/if}}
-              {{name}}
-            </a>
           {{/if}}
         {{/each}}
       </div>
