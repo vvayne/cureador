@@ -145,11 +145,11 @@ Template.appBody.events({
       if (err)
         Session.set('errorMessage', err.reason || 'Unknown error');
     });
-    Accounts.createUser({ //THIS DOESN'T WORK probs cuz I didn't add a password
-    }, function(error) {
-      Router.go('home');
-    });
-    console.log("did we create a user?");
+    // Accounts.createUser({ //THIS DOESN'T WORK probs cuz I didn't add a password
+    // }, function(error) {
+    //   Router.go('home');
+    // });
+    // console.log("did we create a user?");
   },
 
   // 'click #joining': function() {
