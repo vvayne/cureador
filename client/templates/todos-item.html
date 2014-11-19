@@ -150,14 +150,14 @@
       <span style="font-size:12px; color:gray;" class="accessEmails">
         {{#each listOfAccessibleEmails}}
         <span id="{{.}}"> {{.}} 
-          <span style="color:red;" class="remove"> x </span></span>
+          <span style="color:red;" class="remove"><span style="color:red; float:none; margin:0px; margin-bottom:-5px;" class="icon-closed"></span></span></span>
         {{/each}}
       </span>
     </div>
 
 
     <div class="modal-body" style="padding-right:0px;">
-    <label for="shareusername">Who do you want to share this list with? <span style="font-size: 12px;color:gray;">To stop sharing a list with someone, simply click the <span style="color:red;">x</span> next to their name.</span></label>
+    <label for="shareusername">Who do you want to share this list with? <span style="font-size: 12px;color:gray;">To stop sharing a list with someone, simply click the <span style="color:red; float:none; margin:0px;" class="icon-closed"></span> next to their name.</span></label>
     <input class="shareusername form-control" type="text" name="shareusername" value="" id="shareusername" placeholder="example@gmail.com">
     </div>
   </div>
