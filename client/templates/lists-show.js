@@ -105,25 +105,29 @@ var saveList = function(list, template) {
   var discoverListId = Lists.findOne({name: "Discover"})._id;
   console.log("discoverListId:"+discoverListId);
   if (newName === "" || newName === "Discover") {
-    Lists.update(list._id, {$set: {name: "Untitled"}});
+    newName = "Untitled";
+    Lists.update(list._id, {$set: {name: newName}});
   } else {
     Lists.update(list._id, {$set: {name: newName}});
   }
 
+  console.log("tryna update this");
+  if (!list.Privacy) {
+      // var title = list.name;
+      var url= "/lists/" + list._id; //does this work lol
+         //hopefully this works........
+      var DiscoverList = Lists.findOne({name: "Discover"});
+      var sub = Meteor.subscribe('todos', DiscoverList._id);
+      console.log("subscription:"+sub);
+      console.log("url:" +url);
+      // console.log("title:" +title);
+      console.log(Todos.find().fetch());
+      var found = Todos.findOne({src:url});
+      console.log("found:"+found);
+      Todos.update(found._id, {$set: {title: newName}});
 
-  // if (!list.Privacy) {
-  //     var title = list.name;
-  //     var url= "/lists/" + list._id; //does this work lol
-  //        //hopefully this works........
-  //     var sub = Meteor.subscribe('todos', Lists.findOne({name: "Discover"})._id);
-  //     console.log("subscription:"+sub);
-  //     console.log("url:" +url);
-  //     console.log("title:" +title);
-  //     console.log(Todos.find().fetch());
-  //     var found = Todos.findOne({src:url})._id;
-  //     console.log("found:"+found);
-  //     Todos.update(found, {title: list.name});
-  // }
+      // Meteor.subscribe('todos', DiscoverList._id);
+  }
 
   Session.set(EDITING_KEY, false);
 
