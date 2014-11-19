@@ -187,8 +187,9 @@ Template.shareModal.events({
         if (arr !== null) {
           for (var i = 0; i < arr.length; i++) {
               if (arr[i] === shareusername) {
-                Lists.update({_id: listId},{$pull: {access: shareusername}});
-                foundIt = true;
+                // Lists.update({_id: listId},{$pull: {access: shareusername}});
+                return alert("You already added this person!");
+                // foundIt = true;
                 // Router.go('home');
                 // console.log("herpderpmerp");
                 // var current = Router.current();
@@ -215,6 +216,15 @@ Template.shareModal.events({
   },
   'click .close':function(evt,tmp){
     Session.set('sharing_list',false);
+  },
+  'click .remove':function(evt, tmp) { // This removes emails of people you wanted to share things with!
+    evt.preventDefault();
+    console.log(tmp.data);
+    if (tmp.data.owner == this.valueOf()) {
+      return alert("You can't unshare the owner from their own list!");
+    } else {
+      Lists.update({_id: tmp.data._id}, {$pull: {access: this.valueOf()}});
+    }
   }
 });
 
@@ -263,16 +273,20 @@ Template.modalForm.helpers({
 
 Template.shareModal.helpers({
   listOfAccessibleEmails: function() {
-    var currList = "";
+    return this.access;
+    // var currList = "";
+    // if (!this.Privacy) {
+    //   currList = "The General Public, ";
+    // }
+    
+    // var arr = this.access;
 
-    var arr = this.access;
-
-    if (arr !== null) {
-      for (var i = 0; i < arr.length; i++) {
-        currList += arr[i];
-        currList += ", ";
-      }
-    }
-    return currList;
+    // if (arr !== null) {
+    //   for (var i = 0; i < arr.length; i++) {
+    //     currList += arr[i];
+    //     currList += ", ";
+    //   }
+    // }
+    // return currList;
   }
 });
