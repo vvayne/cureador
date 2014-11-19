@@ -200,6 +200,7 @@ Template.shareModal.events({
           }
           if (!foundIt) {
             Lists.update({_id: listId},{$push: {access: shareusername}});
+            document.getElementById('listSharingSuccess').style.display = 'inherit';
           }
         }
       } else {
@@ -213,9 +214,11 @@ Template.shareModal.events({
   },
   'click .cancel':function(evt,tmpl){
     Session.set('sharing_list',false);
+    document.getElementById('listSharingSuccess').style.display = 'none';
   },
   'click .close':function(evt,tmp){
     Session.set('sharing_list',false);
+    document.getElementById('listSharingSuccess').style.display = 'none';
   },
   'click .remove':function(evt, tmp) { // This removes emails of people you wanted to share things with!
     evt.preventDefault();
@@ -225,6 +228,7 @@ Template.shareModal.events({
     } else {
       Lists.update({_id: tmp.data._id}, {$pull: {access: this.valueOf()}});
     }
+    document.getElementById('listSharingSuccess').style.display = 'none';
   }
 });
 
