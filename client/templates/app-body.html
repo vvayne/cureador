@@ -17,7 +17,7 @@
         </div>
       {{else}}
         <div class="btns-group">
-          {{> loginButtons}}
+          <!-- {{> loginButtons}} -->
           <a href="{{pathFor 'signin'}}" class="btn-secondary">Sign In</a>
           <a href="{{pathFor 'join'}}" class="btn-secondary">Join</a>
         </div>
@@ -31,7 +31,7 @@
         {{> modalForm}}
         {{> editForm}}
         {{#each lists}}
-          <!-- {{#if Privacy}}  What does this do? -->
+          {{#if Privacy}} 
             {{#if accessible}}
               <a href="{{pathFor 'listsShow'}}" class="list-todo {{activeListClass}}" title="{{name}}">
                   <span class="icon-locked"></span>
@@ -41,7 +41,7 @@
                 {{name}}
               </a>
             {{/if}}
-          <!-- {{/if}} -->
+          {{/if}}
           {{#if publicAccessible}}
             <a href="{{pathFor 'listsShow'}}" class="list-todo {{activeListClass}}" title="{{name}}">
               {{#if incompleteCount}}
