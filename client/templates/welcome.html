@@ -1,0 +1,41 @@
+<template name="welcome">
+  <div class="page auth">
+    <nav>
+      <div class="nav-group">
+        <a href="#" class="js-menu nav-todo"><span class="icon-list-unordered"></span></a>
+      </div>
+    </nav>
+
+    <div class="content-scrollable">
+      <div class="wrapper-auth" style="max-width:680px;width:100%;">
+        <h1 class="title-auth" style="font-size:70px">Cureador</h1>
+        <p class="subtitle-auth" style="margin:0px;margin-top:30px;font-size:22px;">Curation, for your online and offline reading. </p>
+        <div class="row">
+          <div class="col-sm-3" style="padding-bottom:10px;">
+            <span class="icon-edited" style="font-size:50px;margin:0px;padding:0px;"></span>
+            <h2>Curate</h2>
+            <p style="margin-top:10px;">Create curated reading lists, containing anything from books to articles.</p>
+          </div>
+          <div class="col-sm-3">
+            <span class="icon-shared" style="font-size:50px;margin:0px;padding:0px;"></span>
+            <h2>Share</h2>
+            <p style="margin-top:10px;">Send and receive lists to selected friends and family and get new reading recommendations!</p>
+          </div>
+          <div class="col-sm-3">
+            <span class="icon-user-add" style="font-size:50px;margin:0px;padding:0px;"></span>
+            <h2>Discuss</h2>
+            <p style="margin-top:10px;">Currently in the works: <strike>Have meaningful discussions about your reading with friends</strike></p>
+          </div>
+          <div class="col-sm-3">
+            <span class="icon-check" style="font-size:50px;margin:0px;padding:0px;"></span>
+            <h2>Discover</h2>
+            <p style="margin-top:10px;">With Cureador, you can browse public lists in our "Discover" list and see what others are reading.</p>
+          </div>
+        </div>
+        <div class="row" style="margin:10px;"></div>
+      </div>
+        <p style="font-size:30px; margin-top:20px"> <a href="{{pathFor 'join'}}" >Join us</a> or <a href="{{pathFor 'signin'}}">sign in!</a></p>
+      <p class="subtitle-auth" style="margin:0px;margin-top:30px;font-size:15px;">For optimal use, use Chrome. Cureador is continually being improved, so pardon any dust.</p>
+    </div>
+  </div>
+</template>
