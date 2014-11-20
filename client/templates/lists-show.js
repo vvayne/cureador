@@ -1,4 +1,4 @@
-var CurrentUserEmail = Meteor.user().services.google.email; //don't know if I have to put this twice
+if(Meteor.user()) var CurrentUserEmail = Meteor.user().services.google.email;
 
 var EDITING_KEY = 'editingList';
 var editingItem = 'edtItm';

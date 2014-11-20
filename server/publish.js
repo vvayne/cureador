@@ -1,6 +1,5 @@
 Meteor.publish('publicLists', function() {
-  console.log("yo we in the public lists");
-	console.log(Lists.find({Privacy: false}).fetch());
+	// console.log(Lists.find({Privacy: false}).fetch());
   return Lists.find({Privacy: false});
 });
 
@@ -10,17 +9,21 @@ Meteor.publish('privateLists', function() {
   console.log("aayyyy" + this.userId);
   if (this.userId) {
     var user = Meteor.users.findOne(this.userId);
+    console.log(user.services);
+    console.log(user.services.google);
+
     Lists.find({access: {$exists: user.services.google.email}}); //PERHAPS BUGGY..........
-    console.log("profile publish");
 
   // }
     // return Lists.find({access: {$exists: user.emails[0].address}});
   } else {
-    
+
     this.ready();
     console.log("hi we're ready");
   }
 });
+
+
 
 Meteor.publish('todos', function(listId) {
   check(listId, String);
@@ -28,5 +31,10 @@ Meteor.publish('todos', function(listId) {
 });
 
 Meteor.publish("userData", function () {
-  return Meteor.users.find({_id: this.userId}, {fields: {'services': 1}});
+  if(this.userId){
+  return Meteor.users.find({_id: this.userId}, {fields: {'services': 1}})
+}
+  else {
+    this.ready();
+  }
 });

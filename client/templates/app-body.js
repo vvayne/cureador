@@ -1,7 +1,6 @@
 // var adding_interest = 'adding_interest';
 // Session.setDefault(adding_interest,false);
-
-var CurrentUserEmail = Meteor.user().services.google.email;
+if(Meteor.user()) var CurrentUserEmail = Meteor.user().services.google.email;
 
 var MENU_KEY = 'menuOpen';
 Session.setDefault(MENU_KEY, false);
@@ -117,7 +116,9 @@ Template.appBody.helpers({
     }
   },
   connected: function() {
+    console.log("Got Here");
     if (Session.get(SHOW_CONNECTION_ISSUE_KEY)) {
+      console.log("This here connected: "+ Meteor.status().connected);
       return Meteor.status().connected;
     } else {
       return true;

@@ -33,7 +33,7 @@
         {{> editForm}}
         {{#each lists}}
           {{#if currentUser}}
-            {{#if Privacy}} 
+            {{#if Privacy}}
               {{#if accessible}}
                 <a href="{{pathFor 'listsShow'}}" class="list-todo {{activeListClass}}" title="{{name}}">
                     <span class="icon-locked"></span>
