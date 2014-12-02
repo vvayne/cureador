@@ -17,9 +17,9 @@
         </div>
       {{else}}
         <div class="btns-group" style="margin-top:20px;">
-          <!-- {{> loginButtons}} -->
-          <a href="{{pathFor 'signin'}}" class="btn-secondary">Sign In</a>
-          <a href="{{pathFor 'join'}}" class="btn-secondary">Join</a>
+          {{> loginButtons}}
+          <!-- <a href="{{pathFor 'signin'}}" class="btn-secondary">Sign In</a>
+          <a href="{{pathFor 'join'}}" class="btn-secondary">Join</a> -->
 
         </div>
       {{/if}}
@@ -32,7 +32,7 @@
         {{> modalForm}}
         {{> editForm}}
         {{#each lists}}
-          {{#if Privacy}} 
+          {{#if Privacy}}
             {{#if accessible}}
               <a href="{{pathFor 'listsShow'}}" class="list-todo {{activeListClass}}" title="{{name}}">
                   <span class="icon-locked"></span>
@@ -43,6 +43,7 @@
               </a>
             {{/if}}
           {{/if}}
+          {{#if accessible}}
           {{#if publicAccessible}}
             <a href="{{pathFor 'listsShow'}}" class="list-todo {{activeListClass}}" title="{{name}}">
               {{#if incompleteCount}}
@@ -50,6 +51,7 @@
               {{/if}}
               {{name}}
             </a>
+          {{/if}}
           {{/if}}
         {{/each}}
       </div>

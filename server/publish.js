@@ -13,7 +13,7 @@ Meteor.publish('privateLists', function() {
     console.log("emails publish");
   }
   else if(user.profile){
-    Lists.find({access: {$exists: user.profile.name}});
+    return Lists.find({access: {$exists: user.profile.name}});
     console.log("profile publish");
 
   }

@@ -86,6 +86,9 @@ Template.appBody.helpers({
   },
 
   accessible: function() {
+    if (this.name === "Discover") {
+      return this.name === "Discover";
+    }
     var user;
     if(Meteor.user().emails !== undefined){
       user = Meteor.user().emails[0].address;
@@ -109,12 +112,20 @@ Template.appBody.helpers({
     if (this.name === "Discover") {
       return this.name === "Discover";
     }
-    else if (Meteor.user().profile != undefined){
-        return true;
+    else if(!Meteor.user()){
+      return false;
     }
-    else if (this.owner === Meteor.user().emails[0].address && !this.Privacy) {
+    else if (this.Privacy){
+      console.log(this.Privacy);
+        return false;
+    }
+
+    else{
       return true;
     }
+    // else if (this.owner === Meteor.user().emails[0].address && !this.Privacy) {
+    //   return true;
+    // }
 
   },
 
@@ -188,15 +199,18 @@ Template.appBody.events({
     var accessName = "";
     if(Meteor.user().emails !== undefined){
       accessName = Meteor.user().emails[0].address;
+      console.log("1"+ accessName);
     }
     else{
       accessName = Meteor.user().profile.name;
+      console.log("2"+ accessName);
+
     }
       // var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[Meteor.user().emails[0].address], owner: Meteor.user().emails[0].address, createdAt: CreatedAt, DiscoverList: false};
       var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[accessName], owner: accessName, createdAt: CreatedAt, DiscoverList: false};
 
     list._id = Lists.insert(list);
-    console.log(list);
+    console.log("after insert"+list);
 
     Router.go('listsShow', list);
   }
