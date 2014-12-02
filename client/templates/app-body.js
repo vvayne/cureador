@@ -206,7 +206,7 @@ Template.appBody.events({
       console.log("2"+ accessName);
 
     }
-      // var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[Meteor.user().emails[0].address], owner: Meteor.user().emails[0].address, createdAt: CreatedAt, DiscoverList: false};
+      // var list = {name: Lists.defaultName(), incompleteCount:c , Privacy: true, access:[Meteor.user().emails[0].address], owner: Meteor.user().emails[0].address, createdAt: CreatedAt, DiscoverList: false};
       var list = {name: Lists.defaultName(), incompleteCount: 0, Privacy: true, access:[accessName], owner: accessName, createdAt: CreatedAt, DiscoverList: false};
 
     list._id = Lists.insert(list);
